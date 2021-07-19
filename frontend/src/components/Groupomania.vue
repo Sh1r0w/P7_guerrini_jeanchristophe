@@ -24,5 +24,8 @@ export default {
 a {
   color: #112341;
 }
-
+#connection {
+  width: 10%;
+  margin: auto;
+}
 </style>
