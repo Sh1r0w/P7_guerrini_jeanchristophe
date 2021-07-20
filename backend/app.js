@@ -23,13 +23,16 @@ app.use((req, res, next) => {
   app.use(bodyParser.json());
 
 
-app.use((req, res, next) => {
-    res.json({ ...req.body});
-});
+  app.post('/registration', (req, res, next) => {
+    console.log(req.body);
+    res.status(201).json({
+      message: 'Objet créé !'
+    });
+  });
 
 
 app.post('/api/registration', (req, res, next) => {
-  console.log(...req.body)
+  console.log(req.body)
 });
 
 module.exports = app;
