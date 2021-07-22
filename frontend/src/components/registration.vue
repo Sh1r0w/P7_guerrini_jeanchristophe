@@ -1,13 +1,13 @@
 <template>
   <div class="RegistrationHome">
     <h1>{{ msg }}</h1>
-    <div id="record">
+    <div id="record" class="container col-3 card p-3">
       Votre Nom: <input type="text" id="lastName" v-model="lastName" required /><br />
       Votre Prénom: <input type="text" id="firstName" v-model="firstName" required /><br />
       Votre Mail: <input type="text" id="mail" v-model="mail" required /><br />
       Votre mot de passe:<input type="password" id="password" v-model="password" required /><br />
       Vérification de votre mot de passe:<input type="password" id="passwordVerification" v-model="passwordVerification" required/><br />
-      <button @click.prevent="addUser">Inscription</button>
+      <button class="btn btn-success" @click.prevent="addUser">Inscription</button>
     </div>
   </div>
 </template>
