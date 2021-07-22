@@ -1,19 +1,40 @@
 <template>
   <div class="home">
     <h1>{{ msg }}</h1>
-      <div id="connection">
-      Votre Mail: <input type="text" id="login" required/>
-      Votre mot de passe:<input type="text" id="password" required/>
-      <input type="submit" id="validLogin">
+      <div id="connection" class="card p-2">
+      Votre Mail: <input type="text" v-model="login" required/>
+      Votre mot de passe:<input type="password" v-model="password" required/>
+      <button class="btn btn-success m-2" @click.prevent="validLogin">Connection</button>
       </div>
   </div>
 </template>
 
 <script>
+const axios = require("axios").default;
 export default {
   name: 'Groupomania',
   props: {
     msg: String
+  },
+
+  data(){ 
+    return {
+      login: "",
+      password: ""
+    }
+  },
+  methods: {
+    validLogin() {
+      if (!this.login || !this.password){
+        console.log('Aucun login / mot de pass renseigner')
+      } else {
+        axios.post('http://localhost:3000', {
+          login: this.login,
+          password: this.password
+        })
+        .then(reponse => console.log(reponse.data));
+      }
+    },
   }
 }
 </script>
