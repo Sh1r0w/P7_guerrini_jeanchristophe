@@ -29,13 +29,16 @@ export default {
     };
   },
   methods: {
-    addNewMsg() {
-      axios
-        .post("http://localhost:3000/message/newMsg", {
+    addNewMsg() { if(!this.newTitle || !this.newMsg) {
+      alert('Titre ou Texte non renseigner')
+        }else{ 
+          axios.post("http://localhost:3000/message/newMsg", {
           newTitle: this.newTitle,
           newMsg: this.newMsg,
         })
         .then((reponse) => console.log(reponse.data));
+        
+        }
     },
   },
 };

@@ -4,7 +4,7 @@
     <div id="record" class="container col-3 card p-3">
       Votre Nom: <input type="text" id="lastName" v-model="lastName" required /><br />
       Votre Prénom: <input type="text" id="firstName" v-model="firstName" required /><br />
-      Votre Mail: <input type="text" id="mail" v-model="mail" required /><br />
+      Votre Mail: <input type="text" id="email" v-model="email" required /><br />
       Votre mot de passe:<input type="password" id="password" v-model="password" required /><br />
       Vérification de votre mot de passe:<input type="password" id="passwordVerification" v-model="passwordVerification" required/><br />
       <button class="btn btn-success" @click.prevent="addUser">Inscription</button>
@@ -24,7 +24,7 @@ export default {
     return {
     lastName: "",
     firstName: "",
-    mail: "",
+    email: "",
     password: "",
     passwordVerification: ""
   }
@@ -36,7 +36,7 @@ export default {
         axios.post('http://localhost:3000/registration', {
       lastName: this.lastName,
       firstName: this.firstName,
-      mail: this.mail,
+      email: this.email,
       password: this.password
         })
       .then(reponse => console.log(reponse.data));

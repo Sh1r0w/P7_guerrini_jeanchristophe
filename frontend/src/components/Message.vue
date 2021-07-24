@@ -7,11 +7,16 @@
 
     <div class="selectMsg d-flex justify-content-center">
       <div class="col-5 container border border-dark">
-        {{ posts.title }}
         <h2>Message Recents</h2>
+        <ul>
+          <li v-for="post in posts" v-bind:key="post" @click="selecOne(post.id)" :id="post.id">{{ post.title }} {{ post.createdAt }}</li>
+        </ul>
       </div>
       <div class="col-5 container border border-dark">
         <h2>Tout les messages</h2>
+        <ul>
+          <li v-for="post in posts" v-bind:key="post">{{ post.title }} {{ post.createdAt }}</li>
+        </ul>
       </div>
     </div>
     <newMessage
@@ -33,6 +38,22 @@ export default {
     newMessage: newMsg,
     accountBox: boxAcc,
   },
+  
+  created() {
+    axios
+        .get("http://localhost:3000/message")
+        .then((reponse) => (this.posts = reponse.data))
+        .catch((error) => console.log(error));
+    },
+  beforeCreate() {
+     setInterval(() => {
+    axios
+        .get("http://localhost:3000/message")
+        .then((reponse) => (this.posts = reponse.data))
+        .catch((error) => console.log(error));
+        }, 60000)
+    },
+
   props: {
     msg: String,
   },
@@ -43,15 +64,16 @@ export default {
     };
   },
   methods: {
-    newMessage() {
+    selecOne(id) { 
       axios
-        .get("http://localhost:3000/message")
-        .then((reponse) => (this.posts = reponse.data))
-        .catch((error) => console.log(error));
+        .post("http://localhost:3000/message/"+ id)
+        .then(console.log(id))
     },
+
     toggleNewMsg: function () {
       this.revele = !this.revele;
     },
   },
 };
+
 </script>
