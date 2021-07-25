@@ -5,13 +5,14 @@
       Nouveau Message
     </button>
 
-    <div class="selectMsg d-flex justify-content-center">
+    <div class="selectMsg d-flex flex-column">
       <div class="col-5 container border border-dark">
         <h2>Message Recents</h2>
         <ul>
           <li v-for="post in posts" v-bind:key="post" @click="selecOne(post.id)" :id="post.id">{{ post.title }} {{ post.createdAt }}</li>
         </ul>
       </div>
+      <br/>
       <div class="col-5 container border border-dark">
         <h2>Tout les messages</h2>
         <ul>

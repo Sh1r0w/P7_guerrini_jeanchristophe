@@ -37,7 +37,6 @@ export default {
           newMsg: this.newMsg,
         })
         .then((reponse) => console.log(reponse.data));
-        
         }
     },
   },
