@@ -1,4 +1,11 @@
 'use strict';
+/*user.hasOne(message, {
+  onDelete: 'cascade',
+  foreignKey: {
+    field: 'userId',
+    allowNull: false,
+  }
+})*/
 const {
   Model
 } = require('sequelize');

@@ -22,11 +22,11 @@ export default {
 
   data() {
     return {
-    lastName: "",
-    firstName: "",
-    email: "",
-    password: "",
-    passwordVerification: ""
+    lastName: '',
+    firstName: '',
+    email: '',
+    password: '',
+    passwordVerification: ''
   }
   },
   methods: {
