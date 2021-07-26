@@ -28,14 +28,15 @@ export default {
       if (!this.login || !this.password){
         console.log('Aucun login / mot de pass renseigner')
       } else {
-        axios.post('http://localhost:3000', {
+        axios.post('http://localhost:3000',{
           login: this.login,
           password: this.password
         })
-        .then(reponse => console.log(reponse.data));
-      }
-    },
+        .then(reponse => localStorage.setItem('token', reponse.data.token) & this.$router.push('/message'))
+      
+    }
   }
+}
 }
 </script>
 
