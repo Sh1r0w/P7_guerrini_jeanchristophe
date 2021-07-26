@@ -39,10 +39,11 @@ export default {
       email: this.email,
       password: this.password
         })
-      .then(reponse => console.log(reponse.data));
+      .then(reponse => console.log(reponse.data) & this.$router.push('/message'));
 
     }
   },
+  
 }
 }
 </script>
