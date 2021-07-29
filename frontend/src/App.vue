@@ -1,13 +1,22 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/registration">Enregistrement</router-link> |
-      <router-link to="/message">Forum</router-link>
+      <router-link to="/" v-show="!this.visibility">Home</router-link> 
+      <router-link to="/registration" v-show="!this.visibility">Enregistrement</router-link> 
+      <router-link to="/message" v-show="this.visibility">Forum</router-link>
     </div>
     <router-view/>
   </div>
 </template>
+<script>
+export default {
+data(){
+  return {
+    visibility: localStorage.token
+  }
+}
+}
+</script>
 
 <style>
 #app {

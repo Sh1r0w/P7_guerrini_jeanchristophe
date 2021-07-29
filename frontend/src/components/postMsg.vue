@@ -26,6 +26,7 @@ export default {
     return {
       newTitle: "",
       newMsg: "",
+
     };
   },
   methods: {

@@ -12,12 +12,12 @@ import Post from '@/components/Message.vue'
 
 export default {
   name: 'Message',
+  props: ['auth'],
   components: {
     Post
   }
 }
 </script>
-
 <style lang="sass" scoped>
 
 </style>

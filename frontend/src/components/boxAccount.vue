@@ -9,7 +9,7 @@
     <div class="pageAccount" v-if="revele">
       <div class="card showAccount p-2">
         <h2>Mon Compte</h2>
-        Votre Adresse Mail: <input type="text" /><br />
+        Votre Adresse Mail: {{ user.email }} <input type="text"/><br />
         Votre Nom: <input type="text" /><br />
         Votre Prénom: <input type="text" /><br />
         Modifié votre mot de passe:
@@ -21,11 +21,13 @@
 </template>
 
 <script>
+const axios = require("axios").default;
 export default {
   name: "boxAcc",
   data(){
       return{
-          revele: false
+        user:[],
+        revele: false
       }
   },
   methods: {
@@ -39,6 +41,13 @@ export default {
       this.revele = !this.revele;
     },
   },
+  beforeCreate() {
+    
+    axios
+        .get("http://localhost:3000/message/user")
+        .then((reponse) => (this.user = reponse.data) & console.log(this.user))
+        .catch((error) => console.log(error));
+    },
 };
 </script>
 

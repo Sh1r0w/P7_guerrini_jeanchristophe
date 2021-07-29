@@ -1,13 +1,7 @@
 'use strict';
-/*user.hasOne(message, {
-  onDelete: 'cascade',
-  foreignKey: {
-    field: 'userId',
-    allowNull: false,
-  }
-})*/
+ 
 const {
-  Model
+  Model, DataTypes
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Message extends Model {
@@ -20,15 +14,26 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
+  const user = sequelize.define('user', { name: DataTypes.INTEGER });
   Message.init({
     title: DataTypes.STRING,
 
     message: DataTypes.TEXT,
 
-    userId: DataTypes.STRING,
+    userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: user,
+        key: 'id',
+        foreignKey: {
+          allowNull: false
+        }
+      }
+    },
   }, {
     sequelize,
     modelName: 'Message',
   });
+  user.belongsTo(Message)
   return Message;
 };
