@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   const user = sequelize.define('user', { name: DataTypes.STRING });
-  const message = sequelize.define('message', { name: DataTypes.STRING });
   Reponse.init({
     reponse: DataTypes.STRING,
     userId: {
@@ -24,13 +23,7 @@ module.exports = (sequelize, DataTypes) => {
           key: 'id'
         }
       },
-    messageId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: message,
-        key: 'id'
-      }
-    },
+    
   }, {
     sequelize,
     modelName: 'Reponse',
