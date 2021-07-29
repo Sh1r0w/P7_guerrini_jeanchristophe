@@ -32,9 +32,8 @@ export default {
           login: this.login,
           password: this.password
         })
-        .then(reponse => localStorage.setItem('token', reponse.data.token) & this.$router.push('/message')  & (axios.defaults.headers.common['Authorization'] = `Bearer ${reponse.data.token}`))
-      
-    }
+        .then(reponse => sessionStorage.setItem('token', reponse.data.token) & this.$router.push('/message')  & (axios.defaults.headers.common['Authorization'] = `Bearer ${reponse.data.token}`))
+     }
   }
 }
 }
