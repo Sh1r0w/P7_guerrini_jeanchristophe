@@ -8,9 +8,9 @@
     <div class="selectMsg d-flex flex-column">
       <div class="col-5 container">
         <h2>Message Recents</h2>
-        <div class="card">
-        <ul>
-          <li v-for="post in posts" v-bind:key="post" :href="'/' +post.id">{{ post.title }} {{ post.createdAt }}</li>
+        <div>
+        <ul  id="msgCard">
+          <li class="card p-3 m-4" v-for="post in posts" v-bind:key="post" :href="'/' +post.id">{{ post.title }} {{ post.createdAt }}</li>
         </ul>
         </div>
       </div>
@@ -50,10 +50,14 @@ export default {
         .get("http://localhost:3000/message")
         .then((reponse) => (this.posts = reponse.data))
         .catch((error) => console.log(error));
-        }, 60000) ;
+        }, 6000) ;
     },
   beforeCreate() {    
-      axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.token}`
+      axios.defaults.headers.common['Authorization'] = `Bearer ${sessionStorage.token}`,
+      axios
+        .get("http://localhost:3000/user")
+        .then((reponse) => this.$store.commit('GET_USER', reponse.data) & console.log('commit ok'))
+        .catch((error) => console.log(error))
   },
     
 
@@ -81,3 +85,8 @@ export default {
 };
 
 </script>
+
+<style scoped>
+
+
+</style>

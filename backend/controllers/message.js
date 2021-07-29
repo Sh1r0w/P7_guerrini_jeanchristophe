@@ -38,13 +38,5 @@ exports.deleteMessage = (req, res, next) => {
   Message.deleteOne({ id: req.params.id })
     .then(() => res.status(200).json({ message: 'Message Supprimé' }))
     .catch(error => res.status(400).json({ error }));
-},
-
-exports.getUser = (req, res, next) => {
-  const token = req.headers.authorization.split(' ')[1];
-  const verify = jwt.verify(token, process.env.token);
-  const userId = verify.userId;
-  user.findOne({ id: userId })
-    .then(msg => res.status(200).json(msg))
-    .catch(error => res.status(404).jsons({ error }));
 };
+

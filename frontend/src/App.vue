@@ -2,7 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/" v-show="!this.visibility">Home</router-link> 
-      <router-link to="/registration" v-show="!this.visibility">Enregistrement</router-link> 
+      <router-link to="/registration" v-show="!this.visibility">Enregistrement</router-link><br/>
       <router-link to="/message" v-show="this.visibility">Forum</router-link>
     </div>
     <router-view/>
@@ -12,7 +12,7 @@
 export default {
 data(){
   return {
-    visibility: localStorage.token
+    visibility: sessionStorage.token
   }
 }
 }

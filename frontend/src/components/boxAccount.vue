@@ -9,12 +9,20 @@
     <div class="pageAccount" v-if="revele">
       <div class="card showAccount p-2">
         <h2>Mon Compte</h2>
-        Votre Adresse Mail: {{ user.email }} <input type="text"/><br />
+        <div class="class card p-2 d-flex justify-content-between">
+        Vos informations :<br/>
+        Votre nom : {{ $store.state.user.lastName }} <br/>
+        Votre Prénom : {{ $store.state.user.firstName }} <br/>
+        Votre Adresse Mail : {{ $store.state.user.email }}<br/>
+        </div>
+        Votre Adresse Mail:<input type="text"/><br />
+        
         Votre Nom: <input type="text" /><br />
+        
         Votre Prénom: <input type="text" /><br />
         Modifié votre mot de passe:
         <button @click="toggleAccount" class="btn btn-success">Valider</button><br />
-        <button class="btn btn-danger">Supprimer son compte</button>
+        <button @click="deleteAccount" class="btn btn-danger">Supprimer son compte</button>
       </div>
     </div>
   </div>
@@ -35,19 +43,22 @@ export default {
       console.log("My Account");
     },
     canceled() {
-      console.log("Log Off");
+      sessionStorage.clear() & this.$router.push('/');
     },
     toggleAccount: function () {
       this.revele = !this.revele;
     },
-  },
-  beforeCreate() {
-    
-    axios
-        .get("http://localhost:3000/message/user")
-        .then((reponse) => (this.user = reponse.data) & console.log(this.user))
-        .catch((error) => console.log(error));
-    },
+    deleteAccount: function () {
+      const r = confirm("Suppression");
+      if (r == false) {
+        this.revele = !this.revele
+      } else {
+        axios.post('http://localhost:3000/deleteUser')
+        .then(/*this.$router.push('/') && sessionStorage.clear()*/ console.log('delete post'))
+      }
+    }
+  }
+  
 };
 </script>
 
