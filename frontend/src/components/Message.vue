@@ -6,20 +6,16 @@
     </button>
 
     <div class="selectMsg d-flex flex-column">
-      <div class="col-5 container border border-dark">
+      <div class="col-5 container">
         <h2>Message Recents</h2>
+        <div class="card">
         <ul>
-          <li v-for="post in posts" v-bind:key="post" @click="selecOne(post.id)" :id="post.id">{{ post.title }} {{ post.createdAt }}</li>
+          <li v-for="post in posts" v-bind:key="post" :href="'/' +post.id">{{ post.title }} {{ post.createdAt }}</li>
         </ul>
+        </div>
       </div>
       <br/>
-      <div class="col-5 container border border-dark">
-        <h2>Tout les messages</h2>
-        <ul>
-          <li v-for="post in posts" v-bind:key="post">{{ post.title }} {{ post.createdAt }}</li>
-        </ul>
       </div>
-    </div>
     <newMessage
       v-bind:revele="revele"
       v-bind:toggleNewMsg="toggleNewMsg"
@@ -40,24 +36,31 @@ export default {
     accountBox: boxAcc,
   },
   
-  created() {
+  
+ created() {
+    
     axios
         .get("http://localhost:3000/message")
         .then((reponse) => (this.posts = reponse.data))
         .catch((error) => console.log(error));
     },
-  beforeCreate() {
+  ready() {
      setInterval(() => {
     axios
         .get("http://localhost:3000/message")
         .then((reponse) => (this.posts = reponse.data))
         .catch((error) => console.log(error));
-        }, 60000)
+        }, 60000) ;
     },
+  beforeCreate() {    
+      axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.token}`
+  },
+    
 
   props: {
     msg: String,
   },
+  
   data() {
     return {
       posts: [],

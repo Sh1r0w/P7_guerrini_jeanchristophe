@@ -1,13 +1,13 @@
-const { User } = require('../models');
+const { user } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
+require('dotenv').config();
 
 exports.signup = (req, res, next) => {
     
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
-            User.create({
+            user.create({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 password: hash,
@@ -19,7 +19,7 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-User.findOne({ where: { email: req.body.login}})
+user.findOne({ where: { email: req.body.login}})
 .then( user => {
     if (!user) {
         return res.status(401).json({ error: 'Utilisateur non trouvé '});
@@ -32,7 +32,7 @@ User.findOne({ where: { email: req.body.login}})
             res.status(200).json({ userId: user.id,
                 token: jwt.sign(
                     { userId: user.id },
-                    'token',
+                    process.env.token,
                     { expiresIn: '24h'}
                 )   
              });
