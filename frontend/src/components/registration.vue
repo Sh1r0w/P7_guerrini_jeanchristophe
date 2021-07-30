@@ -8,6 +8,8 @@
       Votre mot de passe:<input type="password" id="password" v-model="password" required /><br />
       Vérification de votre mot de passe:<input type="password" id="passwordVerification" v-model="passwordVerification" required/><br />
       <button class="btn btn-success" @click.prevent="addUser">Inscription</button>
+     <p> Déjà inscrit : <router-link to="/">Connection</router-link> </p>
+
     </div>
   </div>
 </template>
