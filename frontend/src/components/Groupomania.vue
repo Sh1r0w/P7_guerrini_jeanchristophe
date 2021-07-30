@@ -1,10 +1,11 @@
 <template>
   <div class="home">
     <h1>{{ msg }}</h1>
-      <div id="connection" class="card p-2">
+      <div id="connection" class="card p-2 w-50">
       Votre Mail: <input type="text" v-model="login" required/>
       Votre mot de passe:<input type="password" v-model="password" required/>
       <button class="btn btn-success m-2" @click.prevent="validLogin">Connection</button>
+      <p>Pas encore inscrit : <router-link to="/registration">Enregistrement</router-link></p>
       </div>
   </div>
 </template>
@@ -46,7 +47,6 @@ a {
   color: #112341;
 }
 #connection {
-  width: 10%;
   margin: auto;
 }
 </style>

@@ -16,3 +16,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+img{
+  width: 60%;
+}
+</style>
