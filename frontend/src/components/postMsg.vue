@@ -5,7 +5,7 @@
         <h2>Nouveau Message</h2>
         Titre de votre Message :<input type="text" v-model="newTitle" /> <br />
         Votre Texte :<input type="textarea" v-model="newMsg" />
-        <button @click.prevent="addNewMsg" class="btn btn-success m-2">
+        <button v-on:click="toggleNewMsg" @click.prevent="addNewMsg" class="btn btn-success m-2">
           Envoyé Message
         </button>
         <button v-on:click="toggleNewMsg" class="btn btn-danger m-2">

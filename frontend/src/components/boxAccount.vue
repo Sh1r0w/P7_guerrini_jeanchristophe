@@ -34,7 +34,6 @@ export default {
   name: "boxAcc",
   data(){
       return{
-        user:[],
         revele: false
       }
   },

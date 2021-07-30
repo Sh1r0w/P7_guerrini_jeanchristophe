@@ -12,7 +12,14 @@ exports.signup = (req, res, next) => {
                 lastName: req.body.lastName,
                 password: hash,
                 email: req.body.email,
-            });
+            }),
+            res.status(200).json({ userId: user.id,
+                token: jwt.sign(
+                    { userId: user.id },
+                    process.env.token,
+                    { expiresIn: '24h'}
+                )   
+             });
 
         })
         .catch(error => res.status(500).json({ error }));

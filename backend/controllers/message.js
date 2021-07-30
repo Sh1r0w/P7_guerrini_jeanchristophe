@@ -1,5 +1,4 @@
 const { Message } = require('../models');
-const { user } = require('../models');
 const jwt = require('jsonwebtoken');
 
 
@@ -13,7 +12,7 @@ exports.createMessage = (req, res, next) => {
     message: req.body.newMsg,
     userId: userId,
   })
-    .then(() => (res.status(201).json({ message: 'Message created' })));
+    .then(() => (res.status(201).json({ message: 'Message created' }) & console.log(userId)));
 };
 
 exports.getMessage = (req, res, next) => {

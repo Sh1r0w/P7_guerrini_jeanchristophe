@@ -9,13 +9,19 @@
       <div class="col-5 container">
         <h2>Message Recents</h2>
         <div>
-        <ul  id="msgCard">
-          <li class="card p-3 m-4" v-for="post in posts" v-bind:key="post" :href="'/' +post.id">{{ post.title }} {{ post.createdAt }}</li>
-        </ul>
+          <ul id="msgCard">
+            <li
+              class="card p-3 m-4"
+              v-for="post in posts"
+              v-bind:key="post.id"
+              >
+              {{ post.title }} {{ post.createdAt }}
+            </li>
+          </ul>
         </div>
       </div>
-      <br/>
-      </div>
+      <br />
+    </div>
     <newMessage
       v-bind:revele="revele"
       v-bind:toggleNewMsg="toggleNewMsg"
@@ -35,36 +41,39 @@ export default {
     newMessage: newMsg,
     accountBox: boxAcc,
   },
-  
-  
- created() {
-    
-    axios
-        .get("http://localhost:3000/message")
-        .then((reponse) => (this.posts = reponse.data))
-        .catch((error) => console.log(error));
-    },
-  ready() {
-     setInterval(() => {
-    axios
-        .get("http://localhost:3000/message")
-        .then((reponse) => (this.posts = reponse.data))
-        .catch((error) => console.log(error));
-        }, 6000) ;
-    },
-  beforeCreate() {    
-      axios.defaults.headers.common['Authorization'] = `Bearer ${sessionStorage.token}`,
+
+  beforeCreate() {
+    (axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${sessionStorage.token}`),
       axios
         .get("http://localhost:3000/user")
-        .then((reponse) => this.$store.commit('GET_USER', reponse.data) & console.log('commit ok'))
-        .catch((error) => console.log(error))
+        .then(
+          (reponse) =>
+            this.$store.commit("GET_USER", reponse.data) &
+            console.log("commit ok")
+        )
+        .catch((error) => console.log(error));
   },
-    
+  created() {
+    axios
+      .get("http://localhost:3000/message")
+      .then((reponse) => (this.posts = reponse.data))
+      .catch((error) => console.log(error));
+  },
+  ready() {
+    setInterval(() => {
+      axios
+        .get("http://localhost:3000/message")
+        .then((reponse) => (this.posts = reponse.data))
+        .catch((error) => console.log(error));
+    }, 6000);
+  },
 
   props: {
     msg: String,
   },
-  
+
   data() {
     return {
       posts: [],
@@ -72,10 +81,8 @@ export default {
     };
   },
   methods: {
-    selecOne(id) { 
-      axios
-        .post("http://localhost:3000/message/"+ id)
-        .then(console.log(id))
+    selecOne(id) {
+      axios.post("http://localhost:3000/message/" + id).then(console.log(id));
     },
 
     toggleNewMsg: function () {
@@ -83,10 +90,7 @@ export default {
     },
   },
 };
-
 </script>
 
 <style scoped>
-
-
 </style>
