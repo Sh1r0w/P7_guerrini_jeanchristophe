@@ -10,13 +10,13 @@ exports.createMessage = (req, res, next) => {
   Message.create({
     title: req.body.newTitle,
     message: req.body.newMsg,
-    userId: userId,
+    userId: userId
   })
     .then(() => (res.status(201).json({ message: 'Message created' }) & console.log(userId)));
 };
 
 exports.getMessage = (req, res, next) => {
-  Message.findAll()
+  Message.findAll({order: [['createdAt', 'DESC']]}) 
     .then(message => res.status(200).json(message))
     .catch(error => res.status(400).json({ error }));
 };
