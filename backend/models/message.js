@@ -11,30 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association hereassociate: function(models) {
+      // define association here
       Message.hasMany(models.Reponse, { onDelete: 'cascade' });
     }
   };
-  const user = sequelize.define('user', { name: DataTypes.INTEGER });
   Message.init({
     title: DataTypes.STRING,
 
     message: DataTypes.TEXT,
 
-    userId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: user,
-        key: 'id',
-        foreignKey: {
-          allowNull: false
-        }
-      }
-    }
+    imgUrl: DataTypes.STRING,
+
   }, {
     sequelize,
     modelName: 'Message',
   });
-  user.belongsTo(Message)
+
   return Message;
 };

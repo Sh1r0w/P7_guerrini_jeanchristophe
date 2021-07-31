@@ -4,8 +4,9 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  debug: true,
   state: {
-    user: []
+    user: ''
   },
   mutations: {
     GET_USER(state, payload){

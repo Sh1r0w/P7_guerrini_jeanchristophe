@@ -13,16 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  const user = sequelize.define('user', { name: DataTypes.STRING });
   Reponse.init({
     reponse: DataTypes.STRING,
-    userId: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: user,
-          key: 'id'
-        }
-      },
+
+    imgUrlReponse: DataTypes.STRING,
     
   }, {
     sequelize,

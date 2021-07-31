@@ -26,13 +26,15 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
+    
 user.findOne({ where: { email: req.body.login}})
-.then( user => {
-    if (!user) {
+.then( user => { 
+    if (!user || user.actif != 1) {
         return res.status(401).json({ error: 'Utilisateur non trouvé '});
     }
         bcrypt.compare(req.body.password, user.password)
         .then(valid => {
+            
             if (!valid){
                 return res.status(401).json({ error: 'Mot de passe incorrect '});
             }
@@ -62,7 +64,7 @@ exports.getUser = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const verify = jwt.verify(token, process.env.token);
     const userId = verify.userId;
-    user.destroy({where: { id: userId }})
-      .then(() => res.status(200).json({ message: 'Utilisateur Supprimé' }))
+    user.findOne({where: { id: userId }})
+      .then(function (modify) { return modify.update({ actif: 0 })})
       .catch(error => res.status(400).json({ error }));
   };

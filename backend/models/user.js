@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      user.hasMany(models.Message, { onDelete: null });
+      user.hasMany(models.Reponse, { onDelete: null });
     }
   };
   user.init({
@@ -27,7 +29,11 @@ module.exports = (sequelize, DataTypes) => {
   },
   moderator: { 
     type: DataTypes.INTEGER,
-    default: 0
+    defaultValue: 0
+  },
+  actif: {
+    type: DataTypes.INTEGER,
+    defaultValue: 1
   }
   },
    {
