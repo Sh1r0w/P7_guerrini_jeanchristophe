@@ -10,7 +10,8 @@ exports.createMessage = (req, res, next) => {
   Message.create({
     title: req.body.newTitle,
     message: req.body.newMsg,
-    userId: userId
+    userId: userId,
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   })
     .then(() => (res.status(201).json({ message: 'Message created' }) & console.log(userId)));
 };
