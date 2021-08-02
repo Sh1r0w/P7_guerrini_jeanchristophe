@@ -11,7 +11,7 @@ exports.createMessage = (req, res, next) => {
     title: req.body.newTitle,
     message: req.body.newMsg,
     userId: userId,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    imgUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   })
     .then(() => (res.status(201).json({ message: 'Message created' }) & console.log(userId)));
 };

@@ -5,7 +5,7 @@
         <h2>Nouveau Message</h2>
         Titre de votre Message :<input type="text" v-model="newTitle" /> <br />
         Votre Texte :<input type="textarea" v-model="newMsg" />
-        <input type="file" @change="imageName">
+        <input type="file" @change="onChangeFileUpload">
         <button v-on:click="toggleNewMsg" @click.prevent="addNewMsg" class="btn btn-success m-2">
           Envoyé Message
         </button>
@@ -38,14 +38,32 @@ export default {
           axios.post("http://localhost:3000/message/newMsg", {
           newTitle: this.newTitle,
           newMsg: this.newMsg,
-          imageUrl: this.filename,
+         
         })
         .then((reponse) => console.log(reponse.data));
         }
-    },
-    imageName(event) {
-      this.filename = event.target.imageName
-    },
+
+let formData = new FormData ();
+formData.append('file', this.filename);
+
+this.axios.post('http://localhost:3000/message/newMsg',
+formData,
+{ 
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+}
+).then(function(data) {
+  console.log(data.data);
+})
+.catch(function() {
+  console.log('ne marche pas');
+});
+},
+onChangeFileUpload() {
+  this.filename = this.$refs.filename.files[0];
+}
+
   },
 };
 </script>
