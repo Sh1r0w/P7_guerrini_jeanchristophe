@@ -7,13 +7,23 @@ exports.createMessage = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];
   const verify = jwt.verify(token, process.env.token);
   const userId = verify.userId;
+  if (req.file == undefined) {
+    Message.create({
+      title: req.body.newTitle,
+      message: req.body.newMsg,
+      userId: userId
+    })
+      .then(() => (res.status(201).json({ message: 'Message created' }) & console.log(req.file)));
+    
+  }else {
   Message.create({
     title: req.body.newTitle,
     message: req.body.newMsg,
     userId: userId,
     imgUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   })
-    .then(() => (res.status(201).json({ message: 'Message created' }) & console.log(userId)));
+    .then(() => (res.status(201).json({ message: 'Message & Media created' }) & console.log(req.file)));
+  }
 };
 
 exports.getMessage = (req, res, next) => {

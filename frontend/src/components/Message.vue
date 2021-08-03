@@ -15,7 +15,10 @@
               v-for="post in posts"
               v-bind:key="post.id"
               >
-              {{ post.title }} {{ post.createdAt }}
+              <img :src="post.imgUrl">
+              {{ post.title }} 
+              {{ post.createdAt }}
+
             </li>
           </ul>
         </div>
