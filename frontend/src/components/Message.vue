@@ -8,20 +8,12 @@
     <div class="selectMsg d-flex flex-column">
       <div class="col-5 container">
         <h2>Message Recents</h2>
-        <div>
-          <ul id="msgCard">
-            <li
-              class="card p-3 m-4"
-              v-for="post in posts"
-              v-bind:key="post.id"
-              >
-              <img :src="post.imgUrl">
+            <div id="msgCard" class="card p-3 m-4" v-for="post in posts" v-bind:key="post.id">
               {{ post.title }} 
+              <img :src="post.imgUrl">
               {{ post.createdAt }}
 
-            </li>
-          </ul>
-        </div>
+            </div>
       </div>
       <br />
     </div>
@@ -96,4 +88,8 @@ export default {
 </script>
 
 <style scoped>
+
+#msgCard{
+  cursor: pointer;
+}
 </style>
