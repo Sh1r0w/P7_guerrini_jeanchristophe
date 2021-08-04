@@ -4,7 +4,7 @@ const path = require('path');
 const messageRoute = require('./routes/message')
 const userRoute = require('./routes/user')
 const reponseRoute = require('./routes/reponse')
-
+const helmet = require("helmet");
 const cors = require('cors');
 
 
@@ -12,6 +12,8 @@ const cors = require('cors');
 app.use(cors())
 
 app.use(express.json());
+
+app.use(helmet());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/message', messageRoute);
