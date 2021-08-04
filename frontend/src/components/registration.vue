@@ -7,7 +7,7 @@
       Votre Mail: <input type="text" id="email" v-model="email" required /><br />
       Votre mot de passe:<input type="password" id="password" v-model="password" required /><br />
       Vérification de votre mot de passe:<input type="password" id="passwordVerification" v-model="passwordVerification" required/><br />
-      <button class="btn btn-success" @click.prevent="addUser">Inscription</button>
+      <button class="btn btn-success" @click.prevent="addUser(); token();">Inscription</button>
      <p> Déjà inscrit : <router-link to="/">Connection</router-link> </p>
 
     </div>
@@ -41,11 +41,15 @@ export default {
       email: this.email,
       password: this.password
         })
-      .then(reponse => sessionStorage.setItem('token', reponse.data.token) & this.$router.push('/message')  & (axios.defaults.headers.common['Authorization'] = `Bearer ${reponse.data.token}`));
+      .then(reponse => sessionStorage.setItem('token', reponse.data.token) & this.$router.push('/message'));
 
     }
   },
-  
+  token(){
+    axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${sessionStorage.token}`
+}
 }
 }
 </script>
