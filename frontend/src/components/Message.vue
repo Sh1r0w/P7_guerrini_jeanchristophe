@@ -1,6 +1,6 @@
 <template>
   <div class="MessageHome">
-    <h1>{{ msg }}</h1>
+    <h1>{{ msg }} {{ $store.state.user.firstName }}</h1>
     <button @click="toggleNewMsg" class="d-flex ms-5 mb-5 btn btn-success">
       Nouveau Message
     </button>
@@ -11,7 +11,6 @@
             <div @click.prevent="selectOne(post.id)" id="msgCard" class="card p-3 m-4" v-for="post in posts" v-bind:key="post.id">
               {{ post.title }} 
               <img :src="post.imgUrl">
-              {{ post.createdAt }}
 
             </div>
       </div>
@@ -51,7 +50,7 @@ export default {
         .then(
           (reponse) =>
             this.$store.commit("GET_USER", reponse.data) &
-            console.log("commit ok")
+            console.log("commit ok") 
         )
         .catch((error) => console.log(error));
   },
@@ -61,14 +60,7 @@ export default {
       .then((reponse) => (this.posts = reponse.data))
       .catch((error) => console.log(error));
   },
-  ready() {
-    setInterval(() => {
-      axios
-        .get("http://localhost:3000/message")
-        .then((reponse) => (this.posts = reponse.data))
-        .catch((error) => console.log(error));
-    }, 6000);
-  },
+
 
   props: {
     msg: String,
@@ -84,11 +76,9 @@ export default {
   },
   methods: {
     selectOne: function(id) {
-      axios.get("http://localhost:3000/message/" + id)
-    .then((reponse) => this.$store.commit("GET_MSGID", reponse.data))
-    .catch(console.log('ne fonctionne pas')),
-
-      this.toggleReadMsg = !this.toggleReadMsg;
+      axios.get('http://localhost:3000/message/' + id)
+    .then((reponse) => this.$store.commit("GET_MSGID", reponse.data) & (this.toggleReadMsg = !this.toggleReadMsg))
+      
     },
 
     toggleNewMsg: function () {
