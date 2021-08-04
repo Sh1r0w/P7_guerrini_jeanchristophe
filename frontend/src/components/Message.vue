@@ -8,7 +8,7 @@
     <div class="selectMsg d-flex flex-column">
       <div class="col-5 container">
         <h2>Message Recents</h2>
-            <div id="msgCard" class="card p-3 m-4" v-for="post in posts" v-bind:key="post.id">
+            <div @click.prevent="selectOne(post.id)" id="msgCard" class="card p-3 m-4" v-for="post in posts" v-bind:key="post.id">
               {{ post.title }} 
               <img :src="post.imgUrl">
               {{ post.createdAt }}
@@ -21,6 +21,9 @@
       v-bind:revele="revele"
       v-bind:toggleNewMsg="toggleNewMsg"
     ></newMessage>
+    <readMessage v-bind:revele="toggleReadMsg" v-bind:selectOne="selectOne">
+      
+    </readMessage>
     <accountBox></accountBox>
   </div>
 </template>
@@ -28,6 +31,7 @@
 <script>
 import newMsg from "@/components/postMsg.vue";
 import boxAcc from "@/components/boxAccount.vue";
+import readMsg from "@/components/readMessage.vue";
 
 const axios = require("axios").default;
 export default {
@@ -35,6 +39,7 @@ export default {
   components: {
     newMessage: newMsg,
     accountBox: boxAcc,
+    readMessage: readMsg,
   },
 
   beforeCreate() {
@@ -73,11 +78,17 @@ export default {
     return {
       posts: [],
       revele: false,
+      toggleReadMsg: false,
+      message: [],
     };
   },
   methods: {
-    selecOne(id) {
-      axios.post("http://localhost:3000/message/" + id).then(console.log(id));
+    selectOne: function(id) {
+      axios.get("http://localhost:3000/message/" + id)
+    .then((reponse) => this.$store.commit("GET_MSGID", reponse.data))
+    .catch(console.log('ne fonctionne pas')),
+
+      this.toggleReadMsg = !this.toggleReadMsg;
     },
 
     toggleNewMsg: function () {

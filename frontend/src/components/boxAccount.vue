@@ -53,7 +53,7 @@ export default {
         this.revele = !this.revele
       } else {
         axios.post('http://localhost:3000/deleteUser')
-        .then(/*this.$router.push('/') && sessionStorage.clear()*/ console.log('delete post'))
+        .then(this.$router.push('/') && sessionStorage.clear() & console.log('delete post'))
       }
     }
   }
