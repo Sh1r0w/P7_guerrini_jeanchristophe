@@ -1,8 +1,8 @@
 <template>
-    <div class="container" v-if="revele" id="readingMessage" >
-        <div class="card" >
+    <div class="container d-flex position-absolute" v-if="revele" id="readingMessage" >
+
             <div class="back" ></div>
-            <div class="overlay" v-on:click="selectOne"> </div>
+            <div class="overlay " @click="selectOne(); resetData();" > </div>
                 <div class="card p-2">
             <h2>{{ $store.state.msgId.title }}</h2>
             <img v-if="$store.state.msgId.imgUrl != null" :src="$store.state.msgId.imgUrl" :alt="$store.state.msgId.title">
@@ -11,12 +11,14 @@
               <div>
               Votre réponse : <br/>
               <input type="text" v-model="response">
+              <input type="file" ref="filename" @change="onChangeFileUpload">
               <button @click="newResponse" class="btn btn-success m-2">Envoyer</button>
               </div>
               <button @click="allReponse" class="btn-success m-2">Voir les réponses</button>
-              <div class="reponse"  v-for="reponses in oldReponse" v-bind:key="reponses.id">
+              <div class="reponse card m-2 p-2"  v-for="reponses in oldReponse" v-bind:key="reponses.id">
 
                   <div v-if="reponses.userId == $store.state.user.id || $store.state.user.moderator == 1" @click="deleteReponse(reponses.id)" id="suppRep" class="btn btn-danger btn-sm">X</div>
+                  <img :src="reponses.imgUrlReponse">
                   {{ reponses.reponse }} {{ reponses.createdAt }}
                   
  
@@ -25,8 +27,7 @@
                     <button @click="deleteMsg" v-if="$store.state.msgId.userId == $store.state.user.id || $store.state.user.moderator == 1" class="btn btn-danger">Supprimer le message</button></div>
 
             </div>
-            
-        </div>
+
 
     </div>
 </template>
@@ -46,6 +47,9 @@ export default {
     },
 
     methods: {
+        onChangeFileUpload() {
+            this.filename = this.$refs.filename.files[0];
+        },
         deleteMsg(){
             const r = confirm("Toutes supréssion du message sera definitive!")
             if(r == false){
@@ -67,11 +71,20 @@ export default {
             }
         })
         },
-        allReponse(){ 
+
+        
+
+        allReponse(){         
             axios.get("http://localhost:3000/reponse/id/" + this.$store.state.msgId.id)
             .then((response) => (this.oldReponse = response.data))
             .catch((error) => console.log(error));
         },
+
+        resetData(){
+            this.oldReponse = " "
+        },
+
+
         deleteReponse(id){ 
             const r = confirm("Toutes supréssion de la réponse sera definitive!")
             if(r == false){
@@ -90,21 +103,19 @@ export default {
 <style scoped>
 
 #readingMessage {
-  position: fixed;
-  top: 0;
-  bottom: 0;
+  top: 200px;
   left: 0;
   right: 0;
-  display: flex;
   justify-content: center;
   align-items: center;
- overflow: auto;
+  
 
 }
 
 .adm{
     position: absolute;
     left: 10px;
+    top: 0;
 }
 
 .overlay {
@@ -119,13 +130,12 @@ position: fixed;
 
 .reponse{
     position: relative;
-    margin: 20px;
-
 }
 
 #suppRep {
 position: absolute;
 right: 10px;
+top: 4px;
 }
 
 </style>

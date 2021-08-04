@@ -1,14 +1,17 @@
 <template>
-  <div class="boxAccount">
+  <div class="boxAccount" >
+    
     <div class="col-2 littleBox card container p-2">
       Votre Compte <br />
-      <button @click="toggleAccount" class="btn btn-success">Mon Compte</button
+      <button @click="toggleAccount(); selectUser()" class="btn btn-success">Mon Compte</button
       ><br />
       <button @click="canceled" class="btn btn-danger">Déconnection</button>
     </div>
     <div class="pageAccount" v-if="revele">
+      <div class="overlay " @click="toggleAccount" > </div>
       <div class="card showAccount p-2">
         <h2>Mon Compte</h2>
+        <button id="clos" class="btn btn-danger" @click="toggleAccount">X</button>
         <div class="class card p-2 d-flex justify-content-between">
         Vos informations :<br/>
         Votre nom : {{ $store.state.user.lastName }} <br/>
@@ -47,6 +50,16 @@ export default {
     toggleAccount: function () {
       this.revele = !this.revele;
     },
+        selectUser(){
+      axios
+        .get("http://localhost:3000/user")
+        .then(
+          (reponse) =>
+            this.$store.commit("GET_USER", reponse.data) &
+            console.log("commit ok") 
+        )
+        .catch((error) => console.log(error));
+    },
     deleteAccount: function () {
       const r = confirm("Suppression");
       if (r == false) {
@@ -81,4 +94,18 @@ export default {
   box-shadow: 10px 5px 5px grey;
 }
 
+.overlay {
+position: fixed;
+  background-color: rgba(241,241,241, 0.5);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+}
+
+#clos{
+position: absolute;
+right: 10px;
+}
 </style>
