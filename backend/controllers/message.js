@@ -34,8 +34,8 @@ exports.getMessage = (req, res, next) => {
 
 exports.getOneMessage = (req, res, next) => {
   Message.findOne({where: { id: req.params.id }})
-    .then(msg => res.status(200).json(msg) & console.log('ok'))
-    .catch(error => res.status(404).jsons({ error })& console.log('No ok'));
+    .then(msg => res.status(200).json(msg))
+    .catch(error => res.status(404).jsons({ error }));
 };
 
 exports.modifyMessage = (req, res, next) => {
@@ -45,7 +45,7 @@ exports.modifyMessage = (req, res, next) => {
 };
 
 exports.deleteMessage = (req, res, next) => {
-  Message.deleteOne({ id: req.params.id })
+  Message.destroy({where: { id: req.params.id }})
     .then(() => res.status(200).json({ message: 'Message Supprimé' }))
     .catch(error => res.status(400).json({ error }));
 };
