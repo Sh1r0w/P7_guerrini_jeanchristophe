@@ -1,6 +1,6 @@
 <template>
   <div class="blocMsg" v-if="revele">
-    <div class="class container overlay">
+    <div class="container overlay">
       <div class="card msg">
         <h2>Nouveau Message</h2>
         Titre de votre Message :<input type="text" v-model="newTitle" /> <br />

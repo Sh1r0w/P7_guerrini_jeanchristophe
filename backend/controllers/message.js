@@ -33,9 +33,9 @@ exports.getMessage = (req, res, next) => {
 };
 
 exports.getOneMessage = (req, res, next) => {
-  Message.findOne({ id: req.params.id })
-    .then(msg => res.status(200).json(msg))
-    .catch(error => res.status(404).jsons({ error }));
+  Message.findOne({where: { id: req.params.id }})
+    .then(msg => res.status(200).json(msg) & console.log('ok'))
+    .catch(error => res.status(404).jsons({ error })& console.log('No ok'));
 };
 
 exports.modifyMessage = (req, res, next) => {
