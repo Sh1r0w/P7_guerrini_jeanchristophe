@@ -1,6 +1,6 @@
 const { Message } = require('../models');
 const jwt = require('jsonwebtoken');
-
+const fs = require('fs');
 
 
 exports.createMessage = (req, res, next) => {
@@ -45,8 +45,16 @@ exports.modifyMessage = (req, res, next) => {
 };
 
 exports.deleteMessage = (req, res, next) => {
-  Message.destroy({where: { id: req.params.id }})
-    .then(() => res.status(200).json({ message: 'Message Supprimé' }))
-    .catch(error => res.status(400).json({ error }));
+  Message.findOne({where: { id: req.params.id }})
+  .then(message => {
+    const filename = message.imgUrl.split('/images/')[1];
+    fs.unlink(`images/${filename}`, () =>{
+      Message.destroy({where: { id: req.params.id }})
+      .then(() => res.status(200).json({ message: 'Message Supprimé' }))
+      .catch(error => res.status(400).json({ error }));
+    });
+  })
+  .catch(error => res.status(500).json({ error }))
+  
 };
 

@@ -9,7 +9,15 @@
       Vérification de votre mot de passe:<input type="password" id="passwordVerification" v-model="passwordVerification" required/><br />
       <button class="btn btn-success" @click.prevent="addUser(); token();">Inscription</button>
      <p> Déjà inscrit : <router-link to="/">Connection</router-link> </p>
-
+<div id="wrongPassword" class="card">
+      votre mot de passe doit contenire:
+      <ul>
+        <li>Au moins 1 minuscule</li>
+        <li>Au moins 1 Majuscule</li>
+        <li>Au moins 1 chiffre</li>
+        <li>8 - 16 Caractère sans espace</li>
+      </ul>
+      </div>
     </div>
   </div>
 </template>

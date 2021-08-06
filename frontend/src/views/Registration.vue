@@ -1,6 +1,6 @@
 <template>
     <div class="registration">
-        <img alt="Vue logo" src="../assets/icon-left-font-monochrome-black.svg">
+        <img alt="Vue logo" src="../assets/icon-left-font-monochrome-black.svg" class="img-fluid">
         <registration msg="Enregistrement de votre compte"/>
     </div>
 </template>

@@ -2,14 +2,31 @@ const { user } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const passwordValidator = require('password-validator');
+const validator = require('validator');
+const CryptoJS = require("crypto-js");
+
+const schema = new passwordValidator();
+
+schema
+  .is().min(8)
+  .is().max(16)
+  .has().uppercase()
+  .has().lowercase()
+  .has().digits(1)
+  .has().not().spaces();
+
 
 exports.signup = (req, res, next) => {
     
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
+            let firstName = CryptoJS.AES.encrypt(req.body.firstName, process.env.crypto).toString()
+            let lastName = CryptoJS.AES.encrypt(req.body.lastName, process.env.crypto).toString()
+            if( schema.validate(req.body.password) == true){
             user.create({
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
+                firstName: firstName,
+                lastName: lastName,
                 password: hash,
                 email: req.body.email,
             }),
@@ -20,7 +37,10 @@ exports.signup = (req, res, next) => {
                     { expiresIn: '24h'}
                 )   
              });
-
+            }else{
+                console.log("Bad Password")
+                next();
+            }
         })
         .catch(error => res.status(500).json({ error }));
 };
@@ -35,7 +55,7 @@ user.findOne({ where: { email: req.body.login}})
         bcrypt.compare(req.body.password, user.password)
         .then(valid => {
             
-            if (!valid){
+            if (!valid ||  schema.validate(req.body.password) == false){
                 return res.status(401).json({ error: 'Mot de passe incorrect '});
             }
             res.status(200).json({ userId: user.id,

@@ -1,22 +1,26 @@
 <template>
   <div class="boxAccount" >
     
-    <div class="col-2 littleBox card container p-2">
-      Votre Compte <br />
-      <button @click="toggleAccount(); selectUser()" class="btn btn-success">Mon Compte</button
-      ><br />
-      <button @click="canceled" class="btn btn-danger">Déconnection</button>
+
+    <div class="col-lg-2 col-md-6 col-xs-2 littleBox container p-lg-2 position-fixed">
+      <div>
+  <b-dropdown id="dropdown" text="Menu" variant="success" class="m-md-2">
+    <b-dropdown-item @click="selectUser(); toggleAccount();">Mon Compte</b-dropdown-item>
+    <b-dropdown-divider></b-dropdown-divider>
+    <b-dropdown-item @click="canceled" >Déconnection</b-dropdown-item>
+  </b-dropdown>
+</div>
     </div>
     <div class="pageAccount" v-if="revele">
       <div class="overlay " @click="toggleAccount" > </div>
       <div class="card showAccount p-2">
         <h2>Mon Compte</h2>
         <button id="clos" class="btn btn-danger" @click="toggleAccount">X</button>
-        <div class="class card p-2 d-flex justify-content-between">
+        <div class="class card p-2 d-flex justify-content-between" v-for="user in userEncrypted" v-bind:key="user.id">
         Vos informations :<br/>
-        Votre nom : {{ $store.state.user.lastName }} <br/>
-        Votre Prénom : {{ $store.state.user.firstName }} <br/>
-        Votre Adresse Mail : {{ $store.state.user.email }}<br/>
+        Votre nom : {{ user.lastName }} <br/>
+        Votre Prénom : {{ user.firstName }} <br/>
+        Votre Adresse Mail :{{ user.email }} <br/>
         </div>
         Votre Adresse Mail:<input type="text"/><br />
         
@@ -37,7 +41,10 @@ export default {
   name: "boxAcc",
   data(){
       return{
-        revele: false
+        revele: false,
+        lastName: "",
+        firstName: "",
+        userEncrypted: "",
       }
   },
   methods: {
@@ -47,19 +54,27 @@ export default {
     canceled() {
       sessionStorage.clear() & this.$router.push('/');
     },
-    toggleAccount: function () {
-      this.revele = !this.revele;
-    },
         selectUser(){
       axios
         .get("http://localhost:3000/user")
         .then(
           (reponse) =>
-            this.$store.commit("GET_USER", reponse.data) &
-            console.log("commit ok") 
+            this.userEncrypted = this.CryptoJS.AES.decrypt( reponse.data, process.env.VUE_APP_CRYPTO ).toString(this.CryptoJS.enc.Utf8) &
+            console.log("commit ok" + this.userEncrypted) 
         )
         .catch((error) => console.log(error));
     },
+    decryptUser(){
+      const decryptedFirstName = this.CryptoJS.AES.decrypt( this.$userEncrypted.firstName, process.env.VUE_APP_CRYPTO ).toString(this.CryptoJS.enc.Utf8)
+      const decryptedlastName = this.CryptoJS.AES.decrypt( this.$userEncrypted.lastName, process.env.VUE_APP_CRYPTO ).toString(this.CryptoJS.enc.Utf8)
+      this.firstName = decryptedFirstName
+      this.lastName = decryptedlastName
+      
+    },
+    toggleAccount: function () {
+      this.revele = !this.revele;
+    },
+
     deleteAccount: function () {
       const r = confirm("Suppression");
       if (r == false) {
@@ -76,7 +91,6 @@ export default {
 
 <style scoped>
 .littleBox {
-  position: fixed;
   top: 10px;
   right: 10px;
 }
