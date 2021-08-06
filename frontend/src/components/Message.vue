@@ -46,6 +46,10 @@ export default {
     (axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${sessionStorage.token}`)
+    axios.get("http://localhost:3000/user")
+    .then((reponse) =>
+            this.$store.commit("GET_USER", reponse.data) & console.log('commit ok Message'))
+    .catch((error) => console.log(error))
   },
   created() {
     axios

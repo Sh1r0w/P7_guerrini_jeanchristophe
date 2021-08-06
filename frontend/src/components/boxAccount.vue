@@ -16,18 +16,18 @@
       <div class="card showAccount p-2">
         <h2>Mon Compte</h2>
         <button id="clos" class="btn btn-danger" @click="toggleAccount">X</button>
-        <div class="class card p-2 d-flex justify-content-between" v-for="user in userEncrypted" v-bind:key="user.id">
+        <div class="class card p-2 d-flex justify-content-between">
         Vos informations :<br/>
-        Votre nom : {{ user.lastName }} <br/>
-        Votre Prénom : {{ user.firstName }} <br/>
-        Votre Adresse Mail :{{ user.email }} <br/>
+        Votre nom :  {{ this.lastName }}<br/>
+        Votre Prénom : {{ this.firstName }} <br/>
+        Votre Adresse Mail : {{ this.email }}<br/>
         </div>
         Votre Adresse Mail:<input type="text"/><br />
         
         Votre Nom: <input type="text" /><br />
         
         Votre Prénom: <input type="text" /><br />
-        Modifié votre mot de passe:
+        Modifier votre mot de passe:
         <button @click="toggleAccount" class="btn btn-success">Valider</button><br />
         <button @click="deleteAccount" class="btn btn-danger">Supprimer son compte</button>
       </div>
@@ -44,7 +44,7 @@ export default {
         revele: false,
         lastName: "",
         firstName: "",
-        userEncrypted: "",
+        email: "",
       }
   },
   methods: {
@@ -58,18 +58,13 @@ export default {
       axios
         .get("http://localhost:3000/user")
         .then(
-          (reponse) =>
-            this.userEncrypted = this.CryptoJS.AES.decrypt( reponse.data, process.env.VUE_APP_CRYPTO ).toString(this.CryptoJS.enc.Utf8) &
-            console.log("commit ok" + this.userEncrypted) 
+          (reponse) => {
+            this.firstName = this.CryptoJS.AES.decrypt( reponse.data.firstName, process.env.VUE_APP_CRYPTO ).toString(this.CryptoJS.enc.Utf8)
+            this.lastName = this.CryptoJS.AES.decrypt( reponse.data.lastName, process.env.VUE_APP_CRYPTO ).toString(this.CryptoJS.enc.Utf8)
+            this.email = reponse.data.email
+            }
         )
         .catch((error) => console.log(error));
-    },
-    decryptUser(){
-      const decryptedFirstName = this.CryptoJS.AES.decrypt( this.$userEncrypted.firstName, process.env.VUE_APP_CRYPTO ).toString(this.CryptoJS.enc.Utf8)
-      const decryptedlastName = this.CryptoJS.AES.decrypt( this.$userEncrypted.lastName, process.env.VUE_APP_CRYPTO ).toString(this.CryptoJS.enc.Utf8)
-      this.firstName = decryptedFirstName
-      this.lastName = decryptedlastName
-      
     },
     toggleAccount: function () {
       this.revele = !this.revele;
