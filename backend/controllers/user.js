@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const passwordValidator = require('password-validator');
-const validator = require('validator');
 const CryptoJS = require("crypto-js");
 
 const schema = new passwordValidator();

@@ -39,9 +39,21 @@ exports.getOneMessage = (req, res, next) => {
 };
 
 exports.modifyMessage = (req, res, next) => {
-  Message.updateOne({ id: req.params.id }, { ...req.body, id: req.params.id })
-    .then(() => res.status(200).json({ message: 'Message Modifié' }))
-    .catch(error => res.status(400).json({ error }));
+  Message.findOne({where: { id: req.params.id }})
+  .then(message => {
+    const filename = message.imgUrl.split('/images/')[1];
+    fs.unlink(`images/${filename}`, () =>{
+      Message.findOne({where: { id: req.params.id }})
+      .then(function (modify) { return modify.update({ 
+        title: req.body.newTitle,
+        message: req.body.newMsg,
+        imgUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+       })})
+      .catch(error => res.status(400).json({ error }));
+    });
+  })
+  .catch(error => res.status(500).json({ error }))
+  
 };
 
 exports.deleteMessage = (req, res, next) => {
