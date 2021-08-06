@@ -6,7 +6,17 @@
       Votre mot de passe:<input type="password" v-model="password" required/>
       <button class="btn btn-success m-2" @click.prevent="validLogin">Connection</button>
       <p>Pas encore inscrit : <router-link to="/registration">Enregistrement</router-link></p>
+      <div id="wrongPassword" class="card">
+      votre mot de passe doit contenire:
+      <ul>
+        <li>Au moins 1 minuscule</li>
+        <li>Au moins 1 Majuscule</li>
+        <li>Au moins 1 chiffre</li>
+        <li>8 - 16 Caractère sans espace</li>
+      </ul>
       </div>
+      </div>
+      
   </div>
 </template>
 

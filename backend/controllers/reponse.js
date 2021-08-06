@@ -31,7 +31,15 @@ exports.createReponse = (req, res, next) => {
   };
 
   exports.deleteRep = (req, res, next) => {
-    Reponse.destroy({where: { id: req.params.id }})
-      .then(() => res.status(200).json({ message: 'Reponse Supprimé' }))
-      .catch(error => res.status(400).json({ error }));
+    Reponse.findOne({where: {id: req.params.id}})
+    .then(response => {
+      const filename = response.imgUrlReponse.split('/images/')[1];
+      fs.unlink(`images/${filename}`, () =>{
+        Reponse.destroy({where: { id: req.params.id }})
+        .then(() => res.status(200).json({ message: 'Reponse Supprimé' }))
+        .catch(error => res.status(400).json({ error }));
+      })
+    })
+    .catch(error => res.status(400).json({ error }))
+    
   };

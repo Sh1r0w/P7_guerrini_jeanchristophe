@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12">
-    <img class="" alt="Vue logo" src="../assets/icon-left-font-monochrome-black.svg">
+    <img class="img-fluid" alt="Vue logo" src="../assets/icon-left-font-monochrome-black.svg">
     <Post msg="Bienvenue"/>
     </div>
   </div>

@@ -1,16 +1,17 @@
 <template>
   <div class="MessageHome">
-    <h1>{{ msg }} {{ $store.state.user.firstName }}</h1>
-    <button @click="toggleNewMsg" class="d-flex ms-5 mb-5 btn btn-success">
+    <h1 >{{ msg }}</h1>
+    <button @click="toggleNewMsg" class="m-2 btn btn-success">
       Nouveau Message
     </button>
 
     <div class="selectMsg d-flex flex-column">
-      <div class="col-5 container">
+      <div class="col-lg-5 col-sm-12 container">
         <h2>Message Recents</h2>
             <div @click.prevent="selectOne(post.id)" id="msgCard" class="card p-3 m-4" v-for="post in posts" v-bind:key="post.id">
-              {{ post.title }} 
-              <img :src="post.imgUrl">
+              <div class="d-flex p-2"><h2>{{ post.title }}</h2> </div>
+              <div class="d-flex text-muted p-2">{{ post.createdAt }}</div>
+              <img :src="post.imgUrl" :alt="post.title" class="shadow" loading="lazy">
 
             </div>
       </div>
@@ -44,23 +45,16 @@ export default {
   beforeCreate() {
     (axios.defaults.headers.common[
       "Authorization"
-    ] = `Bearer ${sessionStorage.token}`),
-      axios
-        .get("http://localhost:3000/user")
-        .then(
-          (reponse) =>
-            this.$store.commit("GET_USER", reponse.data) &
-            console.log("commit ok") 
-        )
-        .catch((error) => console.log(error));
+    ] = `Bearer ${sessionStorage.token}`)
   },
   created() {
     axios
       .get("http://localhost:3000/message")
       .then((reponse) => (this.posts = reponse.data))
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      
   },
-
+  
 
   props: {
     msg: String,
@@ -71,7 +65,7 @@ export default {
       posts: [],
       revele: false,
       toggleReadMsg: false,
-      message: [],
+      userEncrypted: [],
     };
   },
   methods: {
