@@ -79,7 +79,7 @@ exports.getUser = (req, res, next) => {
       .catch(error => res.status(404).jsons({ error }));
   };
 
-  exports.deleteUser = (req, res, next) => {
+exports.deleteUser = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const verify = jwt.verify(token, process.env.token);
     const userId = verify.userId;
@@ -87,3 +87,50 @@ exports.getUser = (req, res, next) => {
       .then(function (modify) { return modify.update({ actif: 0 })})
       .catch(error => res.status(400).json({ error }));
   };
+
+exports.modifyUser = (req, res, next) => {
+      user.findOne({where: { id: req.params.id }})
+      .then(user => { console.log(req.body)
+        
+    if(req.body.newPassword == ""){
+        const firstName = CryptoJS.AES.encrypt(req.body.firstName, process.env.crypto).toString()
+        const lastName = CryptoJS.AES.encrypt(req.body.lastName, process.env.crypto).toString()
+        user.findOne({where: { id: req.params.id }})
+      .then(function (modify) { 
+        console.log(req.body)
+        return modify.update({ 
+          lastName: lastName,
+          firstName: firstName,
+          email: req.body.email,
+      })
+    })
+    }else{ console.log(req.body),
+        bcrypt.compare(req.body.password, user.password)
+        .then(valid => {
+                
+        if (!valid ||  schema.validate(req.body.newPassword) == false){
+                    return res.status(401).json({ error: 'Mot de passe incorrect '});
+                }
+                    bcrypt.hash(req.body.newPassword, 10)
+                        .then(hash => {
+                            if( schema.validate(req.body.newPassword) == true){
+                            let firstName = CryptoJS.AES.encrypt(req.body.firstName, process.env.crypto).toString()
+                            let lastName = CryptoJS.AES.encrypt(req.body.lastName, process.env.crypto).toString()
+                            user.findOne({where: { id: req.params.id }})
+                                .then(function (modify) {
+                            return modify.update({
+                            firstName: firstName,
+                            lastName: lastName,
+                            password: hash,
+                            email: req.body.email,
+                        })
+                    })
+                    }
+                })  
+            })        
+            .catch(error => res.status(500).json({ error }) & console.log(req.body.password));
+            }
+  
+    })
+}
+  

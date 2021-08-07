@@ -1,12 +1,12 @@
 <template>
   <div
-    class="container d-flex position-absolute"
+    class="container position-fixed d-flex overflow-auto"
     v-if="revele"
     id="readingMessage"
   >
-    <div class="back"></div>
+    
     <div class="overlay" @click="selectOne(); resetData();"></div>
-    <div class="card p-2">
+    <div class="msgBox card p-2">
       <h2 class="d-flex" v-if="!showOn">{{ $store.state.msgId.title }}</h2>
       <div class="d-flex m-2" v-if="showOn">
         Nouveau Titre: <input type="text" :placeholder="$store.state.msgId.title" v-model="newTitle" />
@@ -115,7 +115,7 @@ export default {
   data() {
     return {
       response: "",
-      filename: "",
+      filename: 0,
       oldReponse: "",
       userId: "",
       showOn: false,
@@ -167,7 +167,7 @@ export default {
       axios
         .get("http://localhost:3000/reponse/id/" + this.$store.state.msgId.id)
         .then((response) => (this.oldReponse = response.data))
-        .catch((error) => console.log(error));
+        .catch((error) => console.log(error))
     },
 
     resetData() {
@@ -218,7 +218,7 @@ export default {
 
 <style scoped>
 #readingMessage {
-  top: 200px;
+  top: 20px;
   left: 0;
   right: 0;
   justify-content: center;

@@ -40,7 +40,16 @@ exports.getOneMessage = (req, res, next) => {
 
 exports.modifyMessage = (req, res, next) => {
   Message.findOne({where: { id: req.params.id }})
-  .then(message => {
+  .then(message => { 
+    
+    if(req.body.images == 0){
+    Message.findOne({where: { id: req.params.id }})
+      .then(function (modify) { return modify.update({ 
+        title: req.body.newTitle,
+        message: req.body.newMsg,
+      })})
+      .catch(error => res.status(400).json({ error }) & console.log(req.params));
+  }else{
     const filename = message.imgUrl.split('/images/')[1];
     fs.unlink(`images/${filename}`, () =>{
       Message.findOne({where: { id: req.params.id }})
@@ -50,7 +59,9 @@ exports.modifyMessage = (req, res, next) => {
         imgUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
        })})
       .catch(error => res.status(400).json({ error }));
+      
     });
+  }
   })
   .catch(error => res.status(500).json({ error }))
   
