@@ -11,7 +11,7 @@
             <div @click.prevent="selectOne(post.id)" id="msgCard" class="card p-3 m-4" v-for="post in posts" v-bind:key="post.id">
               <div class="d-flex p-2"><h2>{{ post.title }}</h2> </div>
               <div class="d-flex text-muted p-2">{{ post.createdAt }}</div>
-              <img :src="post.imgUrl" :alt="post.title" class="shadow" loading="lazy">
+              <img v-if="post.imgUrl != null" :src="post.imgUrl" :alt="post.title" class="shadow" loading="lazy">
 
             </div>
       </div>
@@ -46,12 +46,13 @@ export default {
     (axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${sessionStorage.token}`)
-    axios.get("http://localhost:3000/user")
-    .then((reponse) =>
-            this.$store.commit("GET_USER", reponse.data) & console.log('commit ok Message'))
-    .catch((error) => console.log(error))
+    
   },
   created() {
+    axios
+    .get("http://localhost:3000/user")
+    .then((reponse) => (this.$store.commit("GET_USER", reponse.data)))
+      .catch((error) => console.log(error)),
     axios
       .get("http://localhost:3000/message")
       .then((reponse) => (this.posts = reponse.data))
@@ -74,6 +75,7 @@ export default {
   },
   methods: {
     selectOne: function(id) {
+
       axios.get('http://localhost:3000/message/' + id)
     .then((reponse) => this.$store.commit("GET_MSGID", reponse.data) & (this.toggleReadMsg = !this.toggleReadMsg))
       
