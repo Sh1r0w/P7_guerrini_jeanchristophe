@@ -7,7 +7,10 @@
     
     <div class="overlay" @click="selectOne(); resetData();"></div>
     <div class="msgBox card p-2">
-      <h2 class="d-flex" v-if="!showOn">{{ $store.state.msgId.title }}</h2>
+      <div class="d-flex justify-content-between">
+      <h2  class="d-flex" v-if="!showOn">{{ $store.state.msgId.title }}</h2>
+      <div class="d-flex m-2 "><i @click="liked" class="far fa-heart m-2"></i><i class="fas fa-heart-broken m-2"></i></div>
+      </div>
       <div class="d-flex m-2" v-if="showOn">
         Nouveau Titre: <input type="text" :placeholder="$store.state.msgId.title" v-model="newTitle" />
       </div>
@@ -212,6 +215,17 @@ export default {
           .then((reponse) => console.log(reponse.data));
       }
     },
+    liked(){
+      axios
+      .post("http://localhost:3000/message/likeMessage/" + this.$store.state.msgId.id, {
+      liked: 1,
+      disliked: 0,
+      MessageID: this.$store.state.msgId.id,
+      ReponseId: 0,
+      userId: this.$store.state.user.id,
+      })
+      .then(console.log('Liked'))
+    }
   },
 };
 </script>

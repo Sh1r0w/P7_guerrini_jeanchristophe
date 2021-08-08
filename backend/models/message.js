@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Message.hasMany(models.Reponse, { onDelete: 'cascade' });
+      Message.hasMany(models.like, { onDelete: 'cascade' });
     }
   };
   Message.init({

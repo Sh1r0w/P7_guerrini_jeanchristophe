@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>{{ msg }}</h1>
-      <div id="connection" class="card p-2 w-50">
+      <div id="connection" class="container col-lg-3 card ">
       Votre Mail: <input type="text" v-model="login" required/>
       Votre mot de passe:<input type="password" v-model="password" required/>
       <button class="btn btn-success m-2" @click.prevent="validLogin">Connection</button>
@@ -56,7 +56,5 @@ export default {
 a {
   color: #112341;
 }
-#connection {
-  margin: auto;
-}
+
 </style>

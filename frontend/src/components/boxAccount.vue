@@ -111,12 +111,13 @@ export default {
                 formData.append("lastName", this.lastName);
                 formData.append("email", this.email);
                 
-          axios.post('http://localhost:3000/modifyUser/' + this.id, formData, {
+          axios.post('http://localhost:3000/modifyUser' , formData, {
                       headers: {
                         "Content-Type": "multipart/form-data",
                       },
                     })
-                    .then((reponse) => console.log(reponse.data) & console.log(this.email));
+                    .then((reponse) => console.log(reponse.data) & console.log(this.email))
+                    .catch(error => console.log({ error }))
           }else {
             let formData = new FormData();
                 formData.append("firstName", this.firstName);
@@ -125,12 +126,12 @@ export default {
                 formData.append("password", this.password);
                 formData.append("newPassword", this.newPassword);
                 
-          axios.post('http://localhost:3000/modifyUser/' + this.id, formData, {
+          axios.post('http://localhost:3000/modifyUser', formData, {
                       headers: {
                         "Content-Type": "multipart/form-data",
                       },
                     })
-                    .then((reponse) => console.log(reponse.data) & console.log(this.email));
+                    .then((reponse) => console.log(reponse.data));
           }
       
     }
