@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       user.hasMany(models.Message, { onDelete: null });
       user.hasMany(models.Reponse, { onDelete: null });
+      user.hasMany(models.like, { onDelete: 'cascade' });
     }
   };
   user.init({

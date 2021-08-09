@@ -106,31 +106,24 @@ export default {
           if(this.password && this.newPassword != this.newSecondPassword ){
               console.log('probleme password' + this.password)
           }else if (this.password == "" && this.newPassword == this.newSecondPassword || this.password == "" && this.newPassword != this.newSecondPassword){
-            let formData = new FormData();
-                formData.append("firstName", this.firstName);
-                formData.append("lastName", this.lastName);
-                formData.append("email", this.email);
                 
-          axios.post('http://localhost:3000/modifyUser/' + this.id, formData, {
-                      headers: {
-                        "Content-Type": "multipart/form-data",
-                      },
+          axios.post('http://localhost:3000/modifyUser' , {
+                      firstName: this.firstName,
+                      lastName: this.lastName,
+                      email: this.email,
                     })
-                    .then((reponse) => console.log(reponse.data) & console.log(this.email));
+                    .then((reponse) => console.log(reponse.data) & (this.showOnAcc = !this.showOnAcc))
+                    .catch(error => console.log({ error }))
           }else {
-            let formData = new FormData();
-                formData.append("firstName", this.firstName);
-                formData.append("lastName", this.lastName);
-                formData.append("email", this.email);
-                formData.append("password", this.password);
-                formData.append("newPassword", this.newPassword);
                 
-          axios.post('http://localhost:3000/modifyUser/' + this.id, formData, {
-                      headers: {
-                        "Content-Type": "multipart/form-data",
-                      },
+          axios.post('http://localhost:3000/modifyUser', {
+                      firstName: this.firstName,
+                      lastName: this.lastName,
+                      email: this.email,
+                      password: this.password,
+                      newPassword: this.newPassword,
                     })
-                    .then((reponse) => console.log(reponse.data) & console.log(this.email));
+                    .then((reponse) => console.log(reponse.data) & (this.showOnAcc = !this.showOnAcc));
           }
       
     }

@@ -10,10 +10,12 @@
         <h2>Message Recents</h2>
             <div @click.prevent="selectOne(post.id)" id="msgCard" class="card p-3 m-4" v-for="post in posts" v-bind:key="post.id">
               <div class="d-flex p-2"><h2>{{ post.title }}</h2> </div>
+              
               <div class="d-flex text-muted p-2">{{ post.createdAt }}</div>
               <img v-if="post.imgUrl != null" :src="post.imgUrl" :alt="post.title" class="shadow" loading="lazy">
-
+               <div class="d-flex m-2"><i class="far fa-heart m-2"></i><i class="fas fa-heart-broken m-2"></i></div>
             </div>
+            
       </div>
       <br />
     </div>
@@ -53,6 +55,12 @@ export default {
     .get("http://localhost:3000/user")
     .then((reponse) => (this.$store.commit("GET_USER", reponse.data)))
       .catch((error) => console.log(error)),
+      
+    axios
+    .get("http://localhost:3000/like")
+    .then((reponse) =>(this.$store.commit("GET_LIKE", reponse.data)))
+    .catch((error) => console.log(error)),
+
     axios
       .get("http://localhost:3000/message")
       .then((reponse) => (this.posts = reponse.data))

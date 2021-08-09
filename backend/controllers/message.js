@@ -35,7 +35,7 @@ exports.getMessage = (req, res, next) => {
 exports.getOneMessage = (req, res, next) => {
   Message.findOne({where: { id: req.params.id }})
     .then(msg => res.status(200).json(msg))
-    .catch(error => res.status(404).jsons({ error }));
+    .catch(error => res.status(404).json({ error }));
 };
 
 exports.modifyMessage = (req, res, next) => {
@@ -49,7 +49,16 @@ exports.modifyMessage = (req, res, next) => {
         message: req.body.newMsg,
       })})
       .catch(error => res.status(400).json({ error }) & console.log(req.params));
-  }else{
+  }else if(Message.imgUrl == null){
+    Message.findOne({where: { id: req.params.id }})
+    .then(function (modify) { return modify.update({ 
+      title: req.body.newTitle,
+      message: req.body.newMsg,
+      imgUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+     })})
+    .catch(error => res.status(400).json({ error }));
+  }
+  else{
     const filename = message.imgUrl.split('/images/')[1];
     fs.unlink(`images/${filename}`, () =>{
       Message.findOne({where: { id: req.params.id }})
