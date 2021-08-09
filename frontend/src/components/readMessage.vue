@@ -126,7 +126,6 @@ export default {
       newTitle: "",
       newMessage: "",
       newImg: "",
-      Like: "",
     };
   },
 
@@ -216,18 +215,12 @@ export default {
           .then((reponse) => console.log(reponse.data));
       }
     },
-    liked(val1, val2){
-      console.log(this.Like.MessageId == this.$store.state.msgId.id)
+    liked(val1, val2){ 
       axios
       .post("http://localhost:3000/like/likeMessage/" + this.$store.state.msgId.id, {
       liked: val1,
       disliked: val2,
       })
-      .then(console.log('Liked'));
-      axios
-    .get("http://localhost:3000/like")
-    .then((reponse) =>(this.Like = reponse.data))
-    .catch((error) => console.log(error))
       
     }
   },

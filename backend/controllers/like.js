@@ -10,8 +10,10 @@ exports.likeCreate = (req, res, next) => {
   like.findOne({where: { MessageId: req.params.id, userId: userId}} )
   .then(reponse => {
     if (reponse != null && userId == reponse.userId){
-      if(req.body.liked == reponse.liked){
-      console.log('user already liked')
+      if(req.body.liked == reponse.liked || req.body.disliked == reponse.disliked){
+      like.destroy({where: { id: reponse.id }})
+      .then(() => res.status(200).json({ message: 'like retirer' }))
+      .catch(error => res.status(400).json({ error }));
     }
   }else{
     like.create({
