@@ -18,6 +18,9 @@ export default new Vuex.Store({
     },
     GET_ALLUSER(state, payload){
       state.allUser = payload
+    },
+    GET_LIKE(state, payload){
+      state.like = payload
     }
   },
 

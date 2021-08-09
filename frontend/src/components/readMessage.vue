@@ -9,7 +9,7 @@
     <div class="msgBox card p-2">
       <div class="d-flex justify-content-between">
       <h2  class="d-flex" v-if="!showOn">{{ $store.state.msgId.title }}</h2>
-      <div class="d-flex m-2 "><i @click="liked" class="far fa-heart m-2"></i><i class="fas fa-heart-broken m-2"></i></div>
+      <div class="d-flex m-2 " v-if="!showOn"><i @click="liked(1,0)" class="far fa-heart m-2"></i><i @click="liked(0,1)" class="fas fa-heart-broken m-2"></i></div>
       </div>
       <div class="d-flex m-2" v-if="showOn">
         Nouveau Titre: <input type="text" :placeholder="$store.state.msgId.title" v-model="newTitle" />
@@ -126,6 +126,7 @@ export default {
       newTitle: "",
       newMessage: "",
       newImg: "",
+      Like: "",
     };
   },
 
@@ -215,16 +216,19 @@ export default {
           .then((reponse) => console.log(reponse.data));
       }
     },
-    liked(){
+    liked(val1, val2){
+      console.log(this.Like.MessageId == this.$store.state.msgId.id)
       axios
-      .post("http://localhost:3000/message/likeMessage/" + this.$store.state.msgId.id, {
-      liked: 1,
-      disliked: 0,
-      MessageID: this.$store.state.msgId.id,
-      ReponseId: 0,
-      userId: this.$store.state.user.id,
+      .post("http://localhost:3000/like/likeMessage/" + this.$store.state.msgId.id, {
+      liked: val1,
+      disliked: val2,
       })
-      .then(console.log('Liked'))
+      .then(console.log('Liked'));
+      axios
+    .get("http://localhost:3000/like")
+    .then((reponse) =>(this.Like = reponse.data))
+    .catch((error) => console.log(error))
+      
     }
   },
 };

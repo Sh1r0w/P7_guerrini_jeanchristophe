@@ -55,6 +55,12 @@ export default {
     .get("http://localhost:3000/user")
     .then((reponse) => (this.$store.commit("GET_USER", reponse.data)))
       .catch((error) => console.log(error)),
+      
+    axios
+    .get("http://localhost:3000/like")
+    .then((reponse) =>(this.$store.commit("GET_LIKE", reponse.data)))
+    .catch((error) => console.log(error)),
+
     axios
       .get("http://localhost:3000/message")
       .then((reponse) => (this.posts = reponse.data))
