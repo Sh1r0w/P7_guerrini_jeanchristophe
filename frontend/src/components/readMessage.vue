@@ -1,11 +1,11 @@
 <template>
   <div
-    class="container position-fixed d-flex overflow-auto"
+    class="container d-flex overflow-auto"
     v-if="revele"
     id="readingMessage"
   >
     
-    <div class="overlay" @click="selectOne(); resetData();"></div>
+    <div class="overlay" @click="selectOne(); resetData(); refreshMessage(); renitializeRep();"></div>
     <div class="msgBox card p-2">
       <div class="d-flex justify-content-between">
       <h2  class="d-flex" v-if="!showOn">{{ $store.state.msgId.title }}</h2>
@@ -28,22 +28,23 @@
       />
       <div v-if="showOn" class="d-flex m-2">
         Nouvelle Image :
-        <input type="file" ref="filename" @change="onChangeFileUploadNewMsg" />
+        <label id="upload" for="uploadMsg" class="m-2"><i class="fas fa-file-upload"></i> Ajouter un Fichier</label>
+        <input class="d-none" name="uploadMsg" id="uploadMsg" type="file" ref="filename" @change="onChangeFileUploadNewMsg">
       </div>
       <div v-if="!showOn" id="createdAt" class="text-muted">
         {{ $store.state.msgId.updatedAt }}
       </div>
-      <div v-if="!showOn">
+      <i @click="allReponse(); showRep();" v-if="!showOn" class="far fa-comments m-2 d-flex"> {{ $store.state.msgId.reponse }} </i>
+      <div v-if="showOnRep">
         Votre réponse :
-        <input type="text" v-model="response" /><br/>
-        <input type="file" ref="filename" @change="onChangeFileUpload" />
-        <button @click="newResponse" class="btn btn-success m-2">
+        <input class="w-100 h-50" type="textarea" v-model="response" /><br/>
+        <label id="upload" for="uploadMsg" class="m-2"><i class="fas fa-file-upload"></i> Ajouter un Fichier</label>
+        <input class="d-none" name="uploadMsg" id="uploadMsg" type="file" ref="filename" @change="onChangeFileUpload">
+        <button @click="newResponse(); allReponse();" class="btn btn-success m-2">
           Envoyer
         </button>
       </div>
-      <button @click="allReponse" class="btn-success m-2" v-if="!showOn">
-        Voir les réponses
-      </button>
+      <div v-if="showOnRep">
       <div
         class="reponse card m-2 p-2"
         v-for="reponses in oldReponse"
@@ -54,7 +55,7 @@
             reponses.userId == $store.state.user.id ||
             $store.state.user.moderator == 1
           "
-          @click="deleteReponse(reponses.id)"
+          @click="deleteReponse(reponses.id); allReponse();"
           id="suppRep"
           class="btn btn-danger btn-sm"
         >
@@ -62,6 +63,7 @@
         </div>
         <img :src="reponses.imgUrlReponse" />
         {{ reponses.reponse }} {{ reponses.createdAt }}
+      </div>
       </div>
       <div id="adm" class="block-card">
         <button
@@ -75,7 +77,7 @@
           Modifier le message
         </button>
         <button
-          @click="deleteMsg"
+          @click="deleteMsg(); selectOne(); refreshMessage();"
           v-if="
             ($store.state.msgId.userId == $store.state.user.id && !showOn) ||
             ($store.state.user.moderator == 1 && !showOn)
@@ -113,7 +115,7 @@
 const axios = require("axios").default;
 export default {
   name: "readMsg",
-  props: ["revele", "selectOne"],
+  props: ["revele", "selectOne", "refreshMessage", "refreshLikes"],
 
   data() {
     return {
@@ -122,6 +124,7 @@ export default {
       oldReponse: "",
       userId: "",
       showOn: false,
+      showOnRep: false,
       showOnButton: false,
       newTitle: "",
       newMessage: "",
@@ -165,6 +168,9 @@ export default {
     modifyMsg() {
       this.showOn = !this.showOn;
     },
+    showRep() {
+      this.showOnRep = !this.showOnRep;
+    },
 
     allReponse() {
       axios
@@ -185,8 +191,11 @@ export default {
         axios
           .delete("http://localhost:3000/reponse/deletereponse/" + id)
           .then(console.log("Message Supprimer"))
-          .catch(console.log("No ok"));
+          .catch(console.log("No ok"))
       }
+    },
+    renitializeRep(){
+      this.showOnRep = false
     },
 
     endModifyMsg() {
@@ -229,11 +238,13 @@ export default {
 
 <style scoped>
 #readingMessage {
-  top: 20px;
+  position: absolute;
+  top: 80px;
   left: 0;
   right: 0;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 
 .adm {

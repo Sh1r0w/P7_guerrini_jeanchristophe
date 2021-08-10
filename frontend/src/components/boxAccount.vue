@@ -5,17 +5,17 @@
     <div class="col-lg-2 col-md-6 col-xs-2 littleBox container p-lg-2 position-fixed">
       <div>
   <b-dropdown id="dropdown" text="Menu" variant="success" class="m-md-2">
-    <b-dropdown-item @click="selectUser(); toggleAccount();">Mon Compte</b-dropdown-item>
+    <b-dropdown-item @click="selectUser(); toggleAccount(); ">Mon Compte</b-dropdown-item>
     <b-dropdown-divider></b-dropdown-divider>
     <b-dropdown-item @click="canceled" >Déconnection</b-dropdown-item>
   </b-dropdown>
 </div>
     </div>
     <div class="pageAccount" v-if="revele">
-      <div class="overlay " @click="toggleAccount" > </div>
+      <div class="overlay " @click="toggleAccount(); refreshMessage();" > </div>
       <div class="card showAccount p-2">
         <h2>Mon Compte</h2>
-        <button id="clos" class="btn btn-danger" @click="toggleAccount">X</button>
+        <button id="clos" class="btn btn-danger" @click="toggleAccount(); refreshMessage();">X</button>
         <div v-if="!showOnAcc" class="class card p-2 d-flex justify-content-between">
         Vos informations :<br/>
         Votre nom :  {{ this.lastName }}<br/>
@@ -40,7 +40,7 @@
         </div>
         <button v-if="!showOnAcc" @click="showModifyAcc" class="btn btn-success m-2">Modifier votre Compte</button>
         <button v-if="!showOnAcc" @click="deleteAccount" class="btn btn-danger m-2">Supprimer son compte</button>
-        <button v-if="showOnAcc" @click="validModifyAcc(); showModifyAcc()" class="btn btn-success m-2">Valider Modification</button>
+        <button v-if="showOnAcc" @click="validModifyAcc(); showModifyAcc(); refreshMessage();" class="btn btn-success m-2">Valider Modification</button>
         <button v-if="showOnAcc" @click="showModifyAcc" class="btn btn-danger m-2">Annuler Modification</button>
       </div>
     </div>
@@ -51,6 +51,7 @@
 const axios = require("axios").default;
 export default {
   name: "boxAcc",
+  props: ["refreshMessage"],
   data(){
       return{
         showOnAcc: false,

@@ -11,7 +11,7 @@ exports.createMessage = (req, res, next) => {
     Message.create({
       title: req.body.newTitle,
       message: req.body.newMsg,
-      userId: userId
+      userId: userId,
     })
       .then(() => (res.status(201).json({ message: 'Message created' }) & console.log(req.file)));
     
@@ -79,14 +79,20 @@ exports.modifyMessage = (req, res, next) => {
 exports.deleteMessage = (req, res, next) => {
   Message.findOne({where: { id: req.params.id }})
   .then(message => {
-    const filename = message.imgUrl.split('/images/')[1];
-    fs.unlink(`images/${filename}`, () =>{
+    if(req.body.images == null){
       Message.destroy({where: { id: req.params.id }})
       .then(() => res.status(200).json({ message: 'Message Supprimé' }))
       .catch(error => res.status(400).json({ error }));
-    });
+    }else{
+      const filename = message.imgUrl.split('/images/')[1];
+      fs.unlink(`images/${filename}`, () =>{
+        Message.destroy({where: { id: req.params.id }})
+        .then(() => res.status(200).json({ message: 'Message Supprimé' }))
+        .catch(error => res.status(400).json({ error }));
+      })
+
+    }
   })
-  .catch(error => res.status(500).json({ error }))
-  
+    .catch(error => res.status(500).json({ error }))
 };
 

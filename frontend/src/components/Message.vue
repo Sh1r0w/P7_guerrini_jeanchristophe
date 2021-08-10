@@ -1,7 +1,7 @@
 <template>
   <div class="MessageHome">
     <h1 >{{ msg }}</h1>
-    <button @click="toggleNewMsg" class="m-2 btn btn-success">
+    <button @click="toggleNewMsg(); refreshMessage();" class="m-2 btn btn-success">
       Nouveau Message
     </button>
 
@@ -13,7 +13,8 @@
               
               <div class="d-flex text-muted p-2">{{ post.createdAt }}</div>
               <img v-if="post.imgUrl != null" :src="post.imgUrl" :alt="post.title" class="shadow" loading="lazy">
-               <div class="d-flex m-2"><i class="far fa-heart m-2"></i><i class="fas fa-heart-broken m-2"></i></div>
+               <div class="d-flex m-2"><i v-if="post.like != 0" class="fas fa-heart m-2"> {{ post.like }} </i><i v-if="post.dislike != 0" class="fas fa-heart-broken m-2"> {{ post.dislike }}</i> 
+               <i class="fas fa-comments m-2"> {{ post.reponse }} </i></div>
             </div>
             
       </div>
@@ -22,11 +23,12 @@
     <newMessage
       v-bind:revele="revele"
       v-bind:toggleNewMsg="toggleNewMsg"
+      v-bind:refreshMessage="refreshMessage"
     ></newMessage>
-    <readMessage v-bind:revele="toggleReadMsg" v-bind:selectOne="selectOne">
+    <readMessage v-bind:revele="toggleReadMsg" v-bind:selectOne="selectOne" v-bind:refreshMessage="refreshMessage">
       
     </readMessage>
-    <accountBox></accountBox>
+    <accountBox v-bind:refreshMessage="refreshMessage"></accountBox>
   </div>
 </template>
 
@@ -54,17 +56,13 @@ export default {
     axios
     .get("http://localhost:3000/user")
     .then((reponse) => (this.$store.commit("GET_USER", reponse.data)))
-      .catch((error) => console.log(error)),
-      
-    axios
-    .get("http://localhost:3000/like")
-    .then((reponse) =>(this.$store.commit("GET_LIKE", reponse.data)))
-    .catch((error) => console.log(error)),
+      .catch((error) => console.log(error));
 
     axios
       .get("http://localhost:3000/message")
       .then((reponse) => (this.posts = reponse.data))
       .catch((error) => console.log(error))
+      
       
   },
   
@@ -86,7 +84,14 @@ export default {
 
       axios.get('http://localhost:3000/message/' + id)
     .then((reponse) => this.$store.commit("GET_MSGID", reponse.data) & (this.toggleReadMsg = !this.toggleReadMsg))
-      
+    },
+
+    refreshMessage: function () {
+     
+    axios
+      .get("http://localhost:3000/message")
+      .then((reponse) => (this.posts = reponse.data))
+      .catch((error) => console.log(error))
     },
 
     toggleNewMsg: function () {

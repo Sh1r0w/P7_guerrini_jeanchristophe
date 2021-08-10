@@ -1,4 +1,5 @@
 const { Reponse } = require('../models');
+const { Message } = require('../models');
 const jwt = require('jsonwebtoken');
 
 exports.createReponse = (req, res, next) => {
@@ -22,6 +23,7 @@ exports.createReponse = (req, res, next) => {
     })
       .then(() => (res.status(201).json({ message: 'Message & Media created' }) & console.log(req.file)));
     }
+    Message.increment(['reponse'], {where: { id: req.params.id}})
   };
 
   exports.allReponse = (req, res, next) => {
@@ -33,12 +35,20 @@ exports.createReponse = (req, res, next) => {
   exports.deleteRep = (req, res, next) => {
     Reponse.findOne({where: {id: req.params.id}})
     .then(response => {
+    if(req.body.images == null){
+      Reponse.destroy({where: { id: req.params.id }})
+      .then(() => res.status(200).json({ message: 'Message Supprimé' }))
+      .catch(error => res.status(400).json({ error }));
+    }else{
+    
       const filename = response.imgUrlReponse.split('/images/')[1];
       fs.unlink(`images/${filename}`, () =>{
         Reponse.destroy({where: { id: req.params.id }})
         .then(() => res.status(200).json({ message: 'Reponse Supprimé' }))
         .catch(error => res.status(400).json({ error }));
       })
+    }
+    Message.decrement(['reponse'], {where: { id: response.MessageId}})
     })
     .catch(error => res.status(400).json({ error }))
     
