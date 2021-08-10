@@ -2,7 +2,6 @@
   <div class="RegistrationHome">
     <h1>{{ msg }}</h1>
     <div id="record" class="container col-lg-3 card p-3">
-      <p v-if="this.$store.allUser == null"> premier compte </p>
       Votre Nom: <input type="text" id="lastName" v-model="lastName" required /><br />
       Votre Prénom: <input type="text" id="firstName" v-model="firstName" required /><br />
       Votre Mail: <input type="text" id="email" v-model="email" required /><br />
@@ -41,7 +40,7 @@ export default {
   }
   },
   methods: {
-    beforeCreate: function(){
+    created: function(){
       axios
       .get("http://localhost:3000/alluser")
       .then(reponse => (this.$store.commit("GET_ALLUSER", reponse.data)))

@@ -63,7 +63,7 @@ export default {
       .then((reponse) => (this.posts = reponse.data))
       .catch((error) => console.log(error))
       
-      
+     
   },
   
 
@@ -97,6 +97,20 @@ export default {
     toggleNewMsg: function () {
       this.revele = !this.revele;
     },
+
+    /*refreshLikes: function () {
+      axios
+      .get("http://localhost:3000/message")
+      .then((reponse) => {
+      let r = 0;
+      for (r = 0; r < reponse.data.length; r++) {
+    axios
+    .post("http://localhost:3000/reponse/countrep/" + reponse.data[r].id)
+    .then(console.log('reponse ok'))
+    .catch((error) => console.log(error))
+     }
+     })
+    }*/
   },
 };
 </script>
