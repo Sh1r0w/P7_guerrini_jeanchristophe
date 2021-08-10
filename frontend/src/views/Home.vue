@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/icon-left-font-monochrome-black.svg" class="img-fluid">
-    <Groupomania msg="Bienvenu sur Groupomania"/>
+    <img alt="Groupomania Forum" src="../assets/icon-left-font-monochrome-black.svg" class="img-fluid">
+    <Groupomania/>
   </div>
 </template>
 

@@ -1,4 +1,5 @@
 const { like } = require('../models');
+const { Message } = require('../models');
 const jwt = require('jsonwebtoken');
 
 
@@ -11,6 +12,11 @@ exports.likeCreate = (req, res, next) => {
   .then(reponse => {
     if (reponse != null && userId == reponse.userId){
       if(req.body.liked == reponse.liked || req.body.disliked == reponse.disliked){
+        if(reponse.liked == 1){
+          Message.decrement(['like'], {where: { id: req.params.id}})
+        }else if(reponse.disliked == 1){
+          Message.decrement(['dislike'], {where: { id: req.params.id}})
+        }
       like.destroy({where: { id: reponse.id }})
       .then(() => res.status(200).json({ message: 'like retirer' }))
       .catch(error => res.status(400).json({ error }));
@@ -23,12 +29,12 @@ exports.likeCreate = (req, res, next) => {
       userId: userId,
   })
   .then(res.status(201).json({ message: 'Liked' }))
+  if (req.body.liked == 1){
+  Message.increment(['like'], {where: { id: req.params.id}})
+}
+  else if ( req.body.disliked == 1) {
+    Message.increment(['dislike'], {where: { id: req.params.id}})
+  }
   }
 })
-};
-
-exports.allLike = (req, res, next) => {
-  like.findAll() 
-  .then(message => res.status(200).json(message))
-  .catch(error => res.status(400).json({ error }));
 };

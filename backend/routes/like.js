@@ -6,6 +6,4 @@ const likeCtrl = require('../controllers/like');
 
 
 router.post ('/likeMessage/:id', auth, likeCtrl.likeCreate);
-router.get('/', auth, likeCtrl.allLike);
-
 module.exports = router;

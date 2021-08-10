@@ -25,7 +25,7 @@ const axios = require("axios").default;
 export default {
   name: 'Groupomania',
   props: {
-    msg: String
+    msg: String,
   },
 
   data(){ 
@@ -43,7 +43,7 @@ export default {
           login: this.login,
           password: this.password
         })
-        .then(reponse => sessionStorage.setItem('token', reponse.data.token) & this.$router.push('/message')  & (axios.defaults.headers.common['Authorization'] = `Bearer ${reponse.data.token}`))
+        .then(reponse => sessionStorage.setItem('token', reponse.data.token) & this.$router.push('/message'))
      }
   }
 }

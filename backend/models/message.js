@@ -23,6 +23,11 @@ module.exports = (sequelize, DataTypes) => {
 
     imgUrl: DataTypes.STRING,
 
+    like: DataTypes.STRING,
+
+    dislike: DataTypes.STRING,
+
+    reponse: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Message',
