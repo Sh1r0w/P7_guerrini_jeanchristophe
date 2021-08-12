@@ -12,7 +12,7 @@
 </div>
     </div>
     <div class="pageAccount" v-if="revele">
-      <div class="overlay " @click="toggleAccount(); refreshMessage();" > </div>
+      <div class="overlay" @click="toggleAccount(); refreshMessage();" > </div>
       <div class="card showAccount p-2">
         <h2>Mon Compte</h2>
         <button id="clos" class="btn btn-danger" @click="toggleAccount(); refreshMessage();">X</button>
@@ -23,19 +23,19 @@
         Votre Adresse Mail : {{ this.email }}<br/>
         </div>
         <div v-if="showOnAcc" class="class card p-2 d-flex justify-content-between">
-        Votre Adresse Mail:<input type="text" v-model="email"/><br />
+        Votre Adresse Mail:<input type="text" v-model="email" v-bind:class="{'form-control is-valid': testMail}" /><br />
         
-        Votre Nom: <input type="text" v-model="lastName"/><br />
+        Votre Nom: <input type="text" v-model="lastName" v-bind:class="{'form-control is-valid': testLastName}"/><br />
         
-        Votre Prénom: <input type="text" v-model="firstName"/><br />
+        Votre Prénom: <input type="text" v-model="firstName" v-bind:class="{'form-control is-valid': testFirstName}" /><br />
 
         Modifier votre mot de passe:<br />
 
-        Mot de passe actuiel : <input type="password" v-model="password"/><br />
+        Mot de passe actuiel : <input type="password" v-model="password" v-bind:class="{'form-control is-valid': testPasswordVerif}"/><br />
 
-        Nouveau Mot de passe : <input type="password" v-model="newPassword">
+        Nouveau Mot de passe : <input type="password" v-model="newPassword" v-bind:class="{'form-control is-valid': testPasswordVerif}">
 
-        Vérification Nouveau Mot de passe : <input type="password" v-model="newSecondPassword">
+        Vérification Nouveau Mot de passe : <input type="password" v-model="newSecondPassword" v-bind:class="{'form-control is-valid': testPasswordVerif}">
 
         </div>
         <button v-if="!showOnAcc" @click="showModifyAcc" class="btn btn-success m-2">Modifier votre Compte</button>
@@ -128,9 +128,37 @@ export default {
           }
       
     }
-  }
+  },
+  computed: {
+    testFirstName(){
+      let re= /^[a-zéèçà]{2,50}(-| )?([a-zéèçà]{2,50})?$/gmi
+      return re.test(this.firstName)
+    },
+
+    testLastName(){
+      let re= /^[a-zéèçà]{2,50}(-| )?([a-zéèçà]{2,50})?$/gmi
+      return re.test(this.lastName)
+    },
+
+    testMail(){
+      let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(this.email)
+    },
   
-};
+    testPassword(){
+
+    let re = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/gm
+    return re.test(this.password) && (this.password == this.passwordVerification)
+
+    },
+
+    testPasswordVerif(){
+    let re = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/gm
+    return re.test(this.passwordVerification) && (this.password == this.passwordVerification)
+
+    },
+  }
+}
 </script>
 
 <style scoped>

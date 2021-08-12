@@ -5,7 +5,7 @@
     id="readingMessage"
   >
     
-    <div class="overlay" @click="selectOne(); resetData(); refreshMessage(); renitializeRep();"></div>
+    <div class="overlay" @click="selectOne(); resetData(); refreshMessage(); endModifyMsg();"></div>
     <div class="msgBox card p-2">
       <div class="d-flex justify-content-between">
       <h2  class="d-flex" v-if="!showOn">{{ $store.state.msgId.title }}</h2>
@@ -20,50 +20,32 @@
       <div class="d-flex m-2" v-if="showOn">
         Nouveau Message: <input type="textarea" :placeholder="$store.state.msgId.message" v-model="newMessage" />
       </div>
+      <div v-if="testMsg" class="alert alert-danger">Caractére suivant interdit : <br/>
+          1=1 / $ / SELECT / FROM / UNION / OR</div>
       <img
         v-if="$store.state.msgId.imgUrl != null"
         :src="$store.state.msgId.imgUrl"
         :alt="$store.state.msgId.title"
         class="shadow"
       />
+      
       <div v-if="showOn" class="d-flex m-2">
         Nouvelle Image :
         <label id="upload" for="uploadMsg" class="m-2"><i class="fas fa-file-upload"></i> Ajouter un Fichier</label>
         <input class="d-none" name="uploadMsg" id="uploadMsg" type="file" ref="filename" @change="onChangeFileUploadNewMsg">
       </div>
       <div v-if="!showOn" id="createdAt" class="text-muted">
-        {{ $store.state.msgId.updatedAt }}
+        {{ $store.state.msgId.createddAt | moment("from", "D/M/Y HH:MM") }}
       </div>
-      <i @click="allReponse(); showRep();" v-if="!showOn" class="far fa-comments m-2 d-flex"> {{ $store.state.msgId.reponse }} </i>
-      <div v-if="showOnRep">
-        Votre réponse :
+      <i @click="allReponse();" v-if="!showOn" class="far fa-comments m-2 d-flex"> {{ $store.state.msgId.reponse }} </i>
+      <div v-if="!showOn">
+        Ecrire une réponse :
         <input class="w-100 h-50" type="textarea" v-model="response" /><br/>
         <label id="upload" for="uploadMsg" class="m-2"><i class="fas fa-file-upload"></i> Ajouter un Fichier</label>
         <input class="d-none" name="uploadMsg" id="uploadMsg" type="file" ref="filename" @change="onChangeFileUpload">
         <button @click="newResponse(); allReponse();" class="btn btn-success m-2">
           Envoyer
         </button>
-      </div>
-      <div v-if="showOnRep">
-      <div
-        class="reponse card m-2 p-2"
-        v-for="reponses in oldReponse"
-        v-bind:key="reponses.id"
-      >
-        <div
-          v-if="
-            reponses.userId == $store.state.user.id ||
-            $store.state.user.moderator == 1
-          "
-          @click="deleteReponse(reponses.id); allReponse();"
-          id="suppRep"
-          class="btn btn-danger btn-sm"
-        >
-          X
-        </div>
-        <img :src="reponses.imgUrlReponse" />
-        {{ reponses.reponse }} {{ reponses.createdAt }}
-      </div>
       </div>
       <div id="adm" class="block-card">
         <button
@@ -107,6 +89,23 @@
           Annuler Modification
         </button>
       </div>
+      <div v-if="!showOn">
+      <div
+        class="reponse card m-2 p-2"
+        v-for="reponses in oldReponse"
+        v-bind:key="reponses.id"
+      >
+      <i class="far fa-trash-alt m-2" v-if="
+            reponses.userId == $store.state.user.id ||
+            $store.state.user.moderator == 1
+          "
+          @click="deleteReponse(reponses.id); allReponse();"
+          id="suppRep"></i>
+        <img :src="reponses.imgUrlReponse" />
+        <div>{{ reponses.reponse }} {{ reponses.createdAt | moment("from", "D/M/Y HH:MM")}}</div>
+      </div>
+      </div>
+      
     </div>
   </div>
 </template>
@@ -124,7 +123,6 @@ export default {
       oldReponse: "",
       userId: "",
       showOn: false,
-      showOnRep: false,
       showOnButton: false,
       newTitle: "",
       newMessage: "",
@@ -168,9 +166,7 @@ export default {
     modifyMsg() {
       this.showOn = !this.showOn;
     },
-    showRep() {
-      this.showOnRep = !this.showOnRep;
-    },
+
 
     allReponse() {
       axios
@@ -194,12 +190,9 @@ export default {
           .catch(console.log("No ok"))
       }
     },
-    renitializeRep(){
-      this.showOnRep = false
-    },
 
     endModifyMsg() {
-      this.showOn = !this.showOn;
+      this.showOn = false
     },
 
     onChangeFileUploadNewMsg() {
@@ -232,6 +225,13 @@ export default {
       })
       
     }
+    
+  },
+  computed: {
+    testMsg(){
+      let re= /SELECT|UNION|FROM|1=1|OR|\$/
+      return re.test(this.newTitle) || re.test(this.newMessage)
+    },
   },
 };
 </script>
@@ -270,5 +270,13 @@ export default {
   position: absolute;
   right: 10px;
   top: 4px;
+}
+
+.fa-trash-alt,
+.fa-heart,
+.fa-heart-broken,
+.fa-comments
+{
+  cursor: pointer;
 }
 </style>

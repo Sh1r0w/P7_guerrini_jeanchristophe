@@ -5,6 +5,8 @@
         <h2>Nouveau Message</h2>
         Titre de votre Message :<input type="text" v-model="newTitle" /> <br />
         Votre Texte :<input type="textarea" v-model="newMsg" />
+        <div v-if="testMsg" class="alert alert-danger">Caractére suivant interdit : <br/>
+          1=1 / $ / SELECT / FROM / UNION / OR</div>
         <label id="upload" for="uploadMsg" class="m-2"><i class="fas fa-file-upload"></i> Ajouter un Fichier</label>
         <input class="d-none" name="uploadMsg" id="uploadMsg" type="file" ref="filename" @change="onChangeFileUpload">
         <button @click.prevent="addNewMsg(); toggleNewMsg(); refreshMessage(); resetData();" class="btn btn-success m-2">
@@ -61,6 +63,12 @@ resetData(){ setTimeout(() =>{
 },
 
   },
+  computed: {
+    testMsg(){
+      let re= /SELECT|UNION|FROM|1=1|OR|\$/
+      return re.test(this.newTitle) || re.test(this.newMsg)
+    },
+  }
 };
 </script>
 

@@ -38,3 +38,12 @@ exports.likeCreate = (req, res, next) => {
   }
 })
 };
+
+exports.lookLike = (req, res, next) => {
+  const token = req.headers.authorization.split(' ')[1];
+  const verify = jwt.verify(token, process.env.token);
+  const userId = verify.userId;
+like.findAll({where: {userId: userId}})
+.then( reponse => (res.status(200).json(reponse)))
+.catch(error => res.status(400).json({ error }))
+}

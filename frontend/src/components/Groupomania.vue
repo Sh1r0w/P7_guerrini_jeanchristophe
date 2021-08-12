@@ -37,7 +37,7 @@ export default {
   methods: {
     validLogin() {
       if (!this.login || !this.password){
-        console.log('Aucun login / mot de pass renseigner')
+        console.log('Aucun login / mot de passe renseigner')
       } else {
         axios.post('http://localhost:3000',{
           login: this.login,

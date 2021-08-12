@@ -20,6 +20,7 @@ exports.signup = (req, res, next) => {
 
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
+ 
             let firstName = CryptoJS.AES.encrypt(req.body.firstName, process.env.crypto).toString()
             let lastName = CryptoJS.AES.encrypt(req.body.lastName, process.env.crypto).toString()
             if (schema.validate(req.body.password) == true) {
@@ -28,15 +29,8 @@ exports.signup = (req, res, next) => {
                     lastName: lastName,
                     password: hash,
                     email: req.body.email,
-                }),
-                    res.status(200).json({
-                        userId: user.id,
-                        token: jwt.sign(
-                            { userId: user.id },
-                            process.env.token,
-                            { expiresIn: '24h' }
-                        )
-                    });
+                });
+
             } else {
                 console.log("Bad Password")
                 next();
@@ -78,7 +72,7 @@ exports.getUser = (req, res, next) => {
     const userId = verify.userId;
     user.findOne({ where: { id: userId } })
         .then(msg => res.status(200).json(msg))
-        .catch(error => res.status(404).json({ error }));
+        .catch(error => res.status(404).json({ error }) && console.log(error));
 };
 
 exports.getAllUser = (req, res, next) => {
