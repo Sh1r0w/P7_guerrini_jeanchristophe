@@ -16,9 +16,6 @@ export default new Vuex.Store({
     GET_MSGID(state, payload){
       state.msgId = payload
     },
-    GET_ALLUSER(state, payload){
-      state.allUser = payload
-    },
     GET_LIKE(state, payload){
       state.like = payload
     }

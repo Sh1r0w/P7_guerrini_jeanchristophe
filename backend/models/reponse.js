@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
 
     imgUrlReponse: DataTypes.STRING,
 
+    firstName: DataTypes.TEXT,
+
   }, {
     sequelize,
     modelName: 'Reponse',

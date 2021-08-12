@@ -1,17 +1,21 @@
 <template>
-    <div class="registration">
-        <img alt="Vue logo" src="../assets/icon-left-font-monochrome-black.svg" class="img-fluid">
-        <registration msg="Enregistrement de votre compte"/>
-    </div>
+  <div class="registration">
+    <img
+      alt="Vue logo"
+      src="../assets/icon-left-font-monochrome-black.svg"
+      class="img-fluid"
+    />
+    <registration msg="Enregistrement de votre compte" />
+  </div>
 </template>
 
 <script>
-import registration from '@/components/registration.vue'
+import registration from "@/components/registration.vue";
 
 export default {
- name: 'Registration',
+  name: "Registration",
   components: {
-    registration
-  }
-}
+    registration,
+  },
+};
 </script>

@@ -1,17 +1,15 @@
 <template>
   <div id="app">
-    <div id="nav">
-    </div>
-    <router-view/>
+    <div id="nav"></div>
+    <router-view />
   </div>
 </template>
 <script>
 export default {
-data(){
-  return {
-  }
-}
-}
+  data() {
+    return {};
+  },
+};
 </script>
 
 <style>
@@ -35,5 +33,4 @@ data(){
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-
 </style>
