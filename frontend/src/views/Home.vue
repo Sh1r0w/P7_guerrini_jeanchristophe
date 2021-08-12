@@ -1,22 +1,25 @@
 <template>
   <div class="home">
-    <img alt="Groupomania Forum" src="../assets/icon-left-font-monochrome-black.svg" class="img-fluid">
-    <Groupomania/>
+    <img
+      alt="Groupomania Forum"
+      src="../assets/icon-left-font-monochrome-black.svg"
+      class="img-fluid"
+    />
+    <Groupomania />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Groupomania from '@/components/Groupomania.vue'
+import Groupomania from "@/components/Groupomania.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    Groupomania
-  }
-}
+    Groupomania,
+  },
+};
 </script>
 
 <style scoped>
-
 </style>

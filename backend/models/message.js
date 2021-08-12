@@ -1,5 +1,5 @@
 'use strict';
- 
+
 const {
   Model, DataTypes
 } = require('sequelize');
@@ -23,19 +23,21 @@ module.exports = (sequelize, DataTypes) => {
 
     imgUrl: DataTypes.STRING,
 
-    like: { 
+    firstName: DataTypes.TEXT,
+
+    like: {
       type: DataTypes.INTEGER,
-    defaultValue: 0
+      defaultValue: 0
     },
 
-    dislike: { 
+    dislike: {
       type: DataTypes.INTEGER,
-    defaultValue: 0
+      defaultValue: 0
     },
 
-    reponse: { 
+    reponse: {
       type: DataTypes.INTEGER,
-    defaultValue: 0
+      defaultValue: 0
     },
   }, {
     sequelize,

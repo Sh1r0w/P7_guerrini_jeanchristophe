@@ -9,11 +9,12 @@ const helmet = require("helmet");
 const cors = require('cors');
 
 
-
+//validation des headers
 app.use(cors())
 
 app.use(express.json());
 
+//utilisation d'helmet afin d'évité différente attaque dont la xss
 app.use(helmet());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));

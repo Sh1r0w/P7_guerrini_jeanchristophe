@@ -1,5 +1,6 @@
 const multer = require('multer');
 
+//ajout des images avec changement de nom
 const MIME_TYPE = {
     'image/jpg' : 'jpg',
     'image/jpeg' : 'jpg',

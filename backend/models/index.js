@@ -8,6 +8,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
+//utilisation de sequelize pour la communication avec la base de donnée
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
@@ -15,6 +16,7 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
+//suppression des images
 fs
   .readdirSync(__dirname)
   .filter(file => {
@@ -35,7 +37,7 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 sequelize.authenticate()
-.then(() => console.log('Database connected.'))
-.catch(err => console.log('error :' + err));
+  .then(() => console.log('Database connected.'))
+  .catch(err => console.log('error :' + err));
 
 module.exports = db;

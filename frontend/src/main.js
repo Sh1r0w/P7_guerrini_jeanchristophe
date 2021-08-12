@@ -18,7 +18,7 @@ Vue.component('font-awesome-layers-text', FontAwesomeLayersText)
 
 Vue.config.productionTip = false
 
-Vue.use(VueMoment, { moment,})
+Vue.use(VueMoment, { moment, })
 
 Vue.use(VueCryptojs)
 Vue.use(BootstrapVue)
@@ -26,10 +26,10 @@ Vue.use(IconsPlugin)
 
 Vue.filter('moment', function (value, format) {
   if (value === null || value === undefined || value == '' || format === undefined) {
-      return ''
+    return ''
   }
   if (format === 'from') {
-      return moment(value).fromNow()
+    return moment(value).fromNow()
   }
   return moment(value).format(format)
 })

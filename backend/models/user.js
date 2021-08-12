@@ -27,19 +27,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
+    },
+    moderator: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    actif: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+    }
   },
-  moderator: { 
-    type: DataTypes.INTEGER,
-    defaultValue: 0
-  },
-  actif: {
-    type: DataTypes.INTEGER,
-    defaultValue: 1
-  }
-  },
-   {
-    sequelize,
-    modelName: 'user',
-  });
+    {
+      sequelize,
+      modelName: 'user',
+    });
   return user;
 };
