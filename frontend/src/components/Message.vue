@@ -1,20 +1,21 @@
 <template>
   <div class="MessageHome">
     <h1 >{{ msg }}</h1>
+    <p>Nous sommes le : {{ currentDate() }} il est : {{ currentTime() }}</p>
     <button @click="toggleNewMsg(); refreshMessage();" class="m-2 btn btn-success">
       Nouveau Message
     </button>
 
     <div class="selectMsg d-flex flex-column">
       <div class="col-lg-5 col-sm-12 container">
-        <h2>Message Recents</h2>
-            <div @click.prevent="selectOne(post.id)" id="msgCard" class="card p-3 m-4" v-for="post in posts" v-bind:key="post.id">
+        <h2>Messages Recents</h2>
+            <div @click.prevent="selectOne(post.id)" id="msgCard" class="card p-3 m-4" v-for="post in posts" :key="post.id">
               <div class="d-flex p-2"><h2>{{ post.title }}</h2> </div>
               
-              <div class="d-flex text-muted p-2">{{ post.createdAt }}</div>
+              <div class="d-flex text-muted p-2 justify-content-end">{{ post.createdAt | moment("D/M/Y") }}</div>
               <img v-if="post.imgUrl != null" :src="post.imgUrl" :alt="post.title" class="shadow" loading="lazy">
-               <div class="d-flex m-2"><i v-if="post.like != 0" class="fas fa-heart m-2"> {{ post.like }} </i><i v-if="post.dislike != 0" class="fas fa-heart-broken m-2"> {{ post.dislike }}</i> 
-               <i class="fas fa-comments m-2"> {{ post.reponse }} </i></div>
+               <div class="d-flex m-2"><i v-if="post.like != 0" :class="{'text-success' : post.likes[0] != undefined && post.id == post.likes[0].MessageId && post.likes[0].liked == 1}" class="fas fa-heart m-2"> {{ post.like }} </i><i v-if="post.dislike != 0" :class="{'text-danger' : post.likes[0] != undefined && post.id == post.likes[0].MessageId && post.likes[0].disliked == 1}" class="fas fa-heart-broken m-2"> {{ post.dislike }}</i> 
+               <i class="fas fa-comments m-2 text-primary" > {{ post.reponse }} </i></div>
             </div>
             
       </div>
@@ -60,10 +61,13 @@ export default {
 
     axios
       .get("http://localhost:3000/message")
-      .then((reponse) => (this.posts = reponse.data))
-      .catch((error) => console.log(error))
-      
-     
+      .then((reponse) => (this.posts = reponse.data) && console.log(reponse.data))
+      .catch((error) => console.log(error));
+
+      axios
+      .get("http://localhost:3000/like/looklike")
+      .then((reponse) => (this.$store.commit("GET_LIKE", reponse.data)))
+      .catch((error) => console.log(error));
   },
   
 
@@ -77,6 +81,9 @@ export default {
       revele: false,
       toggleReadMsg: false,
       userEncrypted: [],
+      looklike: [],
+      isActive: true,
+      
     };
   },
   methods: {
@@ -97,21 +104,21 @@ export default {
     toggleNewMsg: function () {
       this.revele = !this.revele;
     },
-
-    /*refreshLikes: function () {
-      axios
-      .get("http://localhost:3000/message")
-      .then((reponse) => {
-      let r = 0;
-      for (r = 0; r < reponse.data.length; r++) {
-    axios
-    .post("http://localhost:3000/reponse/countrep/" + reponse.data[r].id)
-    .then(console.log('reponse ok'))
-    .catch((error) => console.log(error))
-     }
-     })
-    }*/
+    currentDate(){
+      const current = new Date();
+      const date = current.getDate() + '/' + (current.getMonth()+1) + '/' + current.getFullYear()
+      return date
+    },
+    currentTime(){
+        const current = new Date();
+        const time = current.getHours() + ':' + current.getMinutes()
+        return time
+    },
   },
+  computed: {
+
+     
+  }
 };
 </script>
 
