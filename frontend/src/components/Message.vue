@@ -13,7 +13,7 @@
     </button>
 
     <div class="selectMsg d-flex flex-column">
-      <div class="col-lg-5 col-sm-12 container">
+      <div class=" col-xl-4 col-lg-7 col-md-9 col-sm-12 container">
         <h2>Messages Recents</h2>
         <div
           @click.prevent="selectOne(post.id)"

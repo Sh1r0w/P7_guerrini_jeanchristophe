@@ -1,5 +1,5 @@
 <template>
-  <div class="container d-flex overflow-auto" v-if="revele" id="readingMessage">
+  <div class="container d-flex" v-if="revele" id="readingMessage">
     <div
       class="overlay"
       @click="
@@ -9,7 +9,7 @@
         endModifyMsg();
       "
     ></div>
-    <div class="msgBox card p-2">
+    <div class="msgBox card p-2 position-fixed overflow-auto">
       <div class="d-flex justify-content-between">
         <h2 class="d-flex" v-if="!showOn">{{ $store.state.msgId.title }}</h2>
         <div class="d-flex m-2" v-if="!showOn">
@@ -321,6 +321,12 @@ export default {
 </script>
 
 <style scoped>
+
+.msgBox{
+  top: 80px;
+  max-height: 100%;
+  
+}
 #readingMessage {
   position: absolute;
   top: 80px;
