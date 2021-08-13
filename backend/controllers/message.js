@@ -14,7 +14,7 @@ exports.createMessage = (req, res, next) => {
     Message.create({
       title: validator.blacklist(req.body.newTitle, '+=$;'),
       message: validator.blacklist(req.body.newMsg, '+=$;'),
-      firstName: CryptoJS.AES.decrypt(req.body.firstName, process.env.crypto).toString(CryptoJS.enc.Utf8),
+      alias: CryptoJS.AES.decrypt(req.body.alias, process.env.crypto).toString(CryptoJS.enc.Utf8),
       userId: userId,
     })
       .then(() => (res.status(201).json({ message: 'Message created' })));
@@ -24,7 +24,7 @@ exports.createMessage = (req, res, next) => {
     Message.create({
       title: validator.blacklist(req.body.newTitle, '+=$;'),
       message: validator.blacklist(req.body.newMsg, '+=$;'),
-      firstName: CryptoJS.AES.decrypt(req.body.firstName, process.env.crypto).toString(CryptoJS.enc.Utf8),
+      alias: CryptoJS.AES.decrypt(req.body.alias, process.env.crypto).toString(CryptoJS.enc.Utf8),
       userId: userId,
       imgUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     })

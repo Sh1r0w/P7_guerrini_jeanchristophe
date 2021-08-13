@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
 
     imgUrl: DataTypes.STRING,
 
-    firstName: DataTypes.TEXT,
+    alias: DataTypes.TEXT,
 
     like: {
       type: DataTypes.INTEGER,

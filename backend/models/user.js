@@ -17,6 +17,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   user.init({
+    alias: {
+      type: DataTypes.STRING,
+      unique: true
+    },
+
     firstName: DataTypes.STRING,
 
     lastName: DataTypes.STRING,

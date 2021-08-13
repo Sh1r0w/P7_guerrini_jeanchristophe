@@ -26,8 +26,10 @@ exports.signup = (req, res, next) => {
 
             let firstName = CryptoJS.AES.encrypt(req.body.firstName, process.env.crypto).toString()
             let lastName = CryptoJS.AES.encrypt(req.body.lastName, process.env.crypto).toString()
+            let alias = CryptoJS.AES.encrypt(req.body.alias, process.env.crypto).toString()
             if (schema.validate(req.body.password) == true) {
                 user.create({
+                    alias: alias,
                     firstName: firstName,
                     lastName: lastName,
                     password: hash,
@@ -127,7 +129,9 @@ exports.modifyUser = (req, res, next) => {
                                         .then(function (modify) {
                                             const firstName = CryptoJS.AES.encrypt(req.body.firstName, process.env.crypto).toString()
                                             const lastName = CryptoJS.AES.encrypt(req.body.lastName, process.env.crypto).toString()
+                                            let alias = CryptoJS.AES.encrypt(req.body.alias, process.env.crypto).toString()
                                             return modify.update({
+                                                alias: alias,
                                                 firstName: firstName,
                                                 lastName: lastName,
                                                 password: hash,
@@ -141,10 +145,12 @@ exports.modifyUser = (req, res, next) => {
             } else {
                 const firstName = CryptoJS.AES.encrypt(req.body.firstName, process.env.crypto).toString()
                 const lastName = CryptoJS.AES.encrypt(req.body.lastName, process.env.crypto).toString()
+                let alias = CryptoJS.AES.encrypt(req.body.alias, process.env.crypto).toString()
                 console.log(req.body)
                 user.findOne({ where: { id: userId } })
                     .then(function (modify) {
                         return modify.update({
+                            alias: alias,
                             lastName: lastName,
                             firstName: firstName,
                             email: req.body.email,

@@ -15,6 +15,14 @@
       autocomplete="off"
       novalidate
     >
+    <input
+        placeholder="Votre Pseudo"
+        type="text"
+        id="alias"
+        v-model="alias"
+        v-bind:class="{ 'form-control is-valid': testAlias }"
+        required
+      /><br />
       <input
         placeholder="Votre Nom"
         type="text"
@@ -83,6 +91,7 @@ export default {
 
   data() {
     return {
+      alias:"",
       lastName: "",
       firstName: "",
       email: "",
@@ -94,6 +103,10 @@ export default {
 
   computed: {
     //test des inputs avec different regex
+    testAlias() {
+      let re = /^[a-zéèçà]{2,50}(-| )?([a-zéèçà]{2,50})?$/gim;
+      return re.test(this.firstName);
+    },
     testFirstName() {
       let re = /^[a-zéèçà]{2,50}(-| )?([a-zéèçà]{2,50})?$/gim;
       return re.test(this.firstName);
@@ -135,6 +148,7 @@ export default {
       } else {
         axios
           .post("http://localhost:3000/registration", {
+            alias: this.alias,
             lastName: this.lastName,
             firstName: this.firstName,
             email: this.email,

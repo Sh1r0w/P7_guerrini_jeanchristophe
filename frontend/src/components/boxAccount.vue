@@ -48,6 +48,7 @@
           class="class card p-2 d-flex justify-content-between"
         >
           Vos informations :<br />
+          Votre pseudo : {{ this.alias }}<br />
           Votre nom : {{ this.lastName }}<br />
           Votre Prénom : {{ this.firstName }} <br />
           Votre Adresse Mail : {{ this.email }}<br />
@@ -56,6 +57,13 @@
           v-if="showOnAcc"
           class="class card p-2 d-flex justify-content-between"
         >
+         Votre Pseudo:
+          <input
+            type="text"
+            v-model="alias"
+            v-bind:class="{ 'form-control is-valid': testAlias }"
+          /><br />
+
           Votre Adresse Mail:<input
             type="text"
             v-model="email"
@@ -152,6 +160,7 @@ export default {
       lastName: "",
       firstName: "",
       email: "",
+      alias: "",
     };
   },
   methods: {
@@ -171,6 +180,10 @@ export default {
           ).toString(this.CryptoJS.enc.Utf8);
           this.lastName = this.CryptoJS.AES.decrypt(
             reponse.data.lastName,
+            process.env.VUE_APP_CRYPTO
+          ).toString(this.CryptoJS.enc.Utf8);
+          this.alias = this.CryptoJS.AES.decrypt(
+            reponse.data.alias,
             process.env.VUE_APP_CRYPTO
           ).toString(this.CryptoJS.enc.Utf8);
           this.email = reponse.data.email;
@@ -211,6 +224,7 @@ export default {
       ) {
         axios
           .post("http://localhost:3000/modifyUser", {
+            alias: this.alias,
             firstName: this.firstName,
             lastName: this.lastName,
             email: this.email,
@@ -223,6 +237,7 @@ export default {
       } else {
         axios
           .post("http://localhost:3000/modifyUser", {
+            alias: this.alias,
             firstName: this.firstName,
             lastName: this.lastName,
             email: this.email,
@@ -239,6 +254,11 @@ export default {
 
   computed: {
     //test avec regex pour modification
+    testAlias() {
+      let re = /^[a-zéèçà]{2,50}(-| )?([a-zéèçà]{2,50})?$/gim;
+      return re.test(this.alias);
+    },
+
     testFirstName() {
       let re = /^[a-zéèçà]{2,50}(-| )?([a-zéèçà]{2,50})?$/gim;
       return re.test(this.firstName);
