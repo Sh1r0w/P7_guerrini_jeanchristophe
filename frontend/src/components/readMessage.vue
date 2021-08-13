@@ -165,7 +165,7 @@
           <img :src="reponses.imgUrlReponse" />
           <div class="d-flex">{{ reponses.reponse }}</div>
           <div class="d-flex justify-content-end" v-if="!showOn">
-            {{ reponses.firstName }} {{ reponses.createdAt | moment("D/M/Y") }}
+            {{ reponses.alias }} {{ reponses.createdAt | moment("D/M/Y") }}
           </div>
         </div>
       </div>
@@ -220,7 +220,7 @@ export default {
       let formData = new FormData();
       formData.append("reponse", this.response);
       formData.append("images", this.filename);
-      formData.append("firstName", this.$store.state.user.firstName);
+      formData.append("alias", this.$store.state.user.alias);
 
       axios.post(
         "http://localhost:3000/reponse/" + this.$store.state.msgId.id,

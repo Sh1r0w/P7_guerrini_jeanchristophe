@@ -71,7 +71,7 @@ export default {
         formData.append("newTitle", this.newTitle);
         formData.append("newMsg", this.newMsg);
         formData.append("images", this.filename);
-        formData.append("firstName", this.$store.state.user.firstName);
+        formData.append("alias", this.$store.state.user.alias);
 
         axios
           .post("http://localhost:3000/message/newMsg", formData, {

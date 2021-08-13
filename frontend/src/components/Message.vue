@@ -26,7 +26,7 @@
             <h2>{{ post.title }}</h2>
           </div>
 
-          <p class="d-flex justify-content-end">de : {{ post.firstName }}</p>
+          <p class="d-flex justify-content-end">de : {{ post.alias }}</p>
 
           <div class="d-flex text-muted p-2 justify-content-end">
             {{ post.createdAt | moment("D/M/Y") }}

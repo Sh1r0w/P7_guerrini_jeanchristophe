@@ -11,7 +11,7 @@ exports.createReponse = (req, res, next) => {
   if (req.file == undefined) {
     Reponse.create({
       reponse: req.body.reponse,
-      firstName: CryptoJS.AES.decrypt(req.body.firstName, process.env.crypto).toString(CryptoJS.enc.Utf8),
+      alias: CryptoJS.AES.decrypt(req.body.alias, process.env.crypto).toString(CryptoJS.enc.Utf8),
       userId: userId,
       MessageId: req.params.id
     })
@@ -23,7 +23,7 @@ exports.createReponse = (req, res, next) => {
       reponse: req.body.reponse,
       userId: userId,
       MessageId: req.params.id,
-      firstName: CryptoJS.AES.decrypt(req.body.firstName, process.env.crypto).toString(CryptoJS.enc.Utf8),
+      alias: CryptoJS.AES.decrypt(req.body.alias, process.env.crypto).toString(CryptoJS.enc.Utf8),
       imgUrlReponse: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     })
       .then(() => (res.status(201).json({ message: 'Message & Media created' }) & console.log(req.file)));
