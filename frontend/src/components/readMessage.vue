@@ -321,11 +321,10 @@ export default {
 </script>
 
 <style scoped>
-
 .msgBox{
   top: 80px;
   max-height: 100%;
-  
+  max-width: 900px;
 }
 #readingMessage {
   position: absolute;
