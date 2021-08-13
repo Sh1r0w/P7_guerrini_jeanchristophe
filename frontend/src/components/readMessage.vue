@@ -9,7 +9,6 @@
         endModifyMsg();
       "
     ></div>
-    <div class="msgBox card p-2">
     <div class="msgBox card p-2 position-fixed overflow-auto">
       <div class="d-flex justify-content-between">
         <h2 class="d-flex" v-if="!showOn">{{ $store.state.msgId.title }}</h2>
