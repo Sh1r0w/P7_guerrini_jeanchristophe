@@ -164,9 +164,9 @@ export default {
     };
   },
   methods: {
-    //deconnection avec suppresion de la SessionStorage et renvoi à la connection
+    //deconnection avec suppresion de la localStorage et renvoi à la connection
     canceled() {
-      sessionStorage.clear() & this.$router.push("/");
+      localStorage.clear() & this.$router.push("/");
     },
 
     //Selection de l'utilisateur avec decryptage du nom et prénom

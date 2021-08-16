@@ -73,7 +73,7 @@ export default {
           })
           .then(
             (reponse) =>
-              sessionStorage.setItem("token", reponse.data.token) &
+              localStorage.setItem("token", reponse.data.token) &
               this.$router.push("/message")
           )
           .catch((error) => {
