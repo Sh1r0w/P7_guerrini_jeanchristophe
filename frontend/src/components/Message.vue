@@ -29,7 +29,7 @@
           <p class="d-flex justify-content-end">de : {{ post.alias }}</p>
 
           <div class="d-flex text-muted p-2 justify-content-end">
-            {{ post.createdAt | moment("D/M/Y") }}
+            {{ post.createdAt | moment("D/M/Y  HH:MM") }}
           </div>
           <img
             v-if="post.imgUrl != null"
@@ -100,7 +100,7 @@ export default {
   beforeCreate() {
     axios.defaults.headers.common[
       "Authorization"
-    ] = `Bearer ${sessionStorage.token}`;
+    ] = `Bearer ${localStorage.token}`;
   },
 
   //Récupération de l'utilisateur connecté et des messages pour affichange aprés l'initialisation des fonctions réactive de la page

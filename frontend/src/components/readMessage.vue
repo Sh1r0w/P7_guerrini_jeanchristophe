@@ -165,7 +165,7 @@
           <img :src="reponses.imgUrlReponse" />
           <div class="d-flex">{{ reponses.reponse }}</div>
           <div class="d-flex justify-content-end" v-if="!showOn">
-            {{ reponses.alias }} {{ reponses.createdAt | moment("D/M/Y") }}
+            {{ reponses.alias }} {{ reponses.createdAt | moment("D/M/Y HH:MM") }}
           </div>
         </div>
       </div>
