@@ -65,7 +65,7 @@
         />
       </div>
       <div v-if="!showOn" id="createdAt" class="text-muted">
-        {{ $store.state.msgId.createddAt | moment("from", "D/M/Y HH:MM") }}
+        {{ $store.state.msgId.createdAt | moment("D/M/Y HH:MM") }}
       </div>
       <i
         @click="allReponse()"
