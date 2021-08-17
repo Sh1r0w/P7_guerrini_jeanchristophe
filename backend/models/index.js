@@ -4,17 +4,28 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
+require('dotenv').config();
 
 //utilisation de sequelize pour la communication avec la base de donnée
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+
+ const sequelize = new Sequelize(process.env.DB, process.env.USER, process.env.PASSWORD, {
+    host: process.env.HOST,
+    dialect: process.env.DIALECT,
+    
+    pool: {
+      max: 5, //nombre maximum de connexions autorisées
+      acquire: 40000, //durée maximale, en millisecondes, pendant laquelle le pool cherche à établir la connexion avant qu'un message d'erreur n'apparaisse à l'écran
+    },
+  },
+  );
+
+sequelize
+  .authenticate()
+  .then(() => console.log('Connexion à la base de donées réussie'))
+  .catch((error) => {
+    console.error(error.message + process.env.PASSWORD);
+  });
 
 //suppression des images
 fs
@@ -35,9 +46,5 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-
-sequelize.authenticate()
-  .then(() => console.log('Database connected.'))
-  .catch(err => console.log('error :' + err));
 
 module.exports = db;
