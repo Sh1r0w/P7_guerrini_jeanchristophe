@@ -32,9 +32,12 @@ installer XAMPP et créer une base de donnée nomée groupomania avec l'intercla
 
 ensuite avec la commande "nodemon server" les tables se rajouterons automatiquement à la bdd (parti 4 backend).
 
+-------------------------------
+
 4- initialisation du frontend et du backend
 
 Pour le backend 
+
 
 IMPORTANT 
 
@@ -43,7 +46,7 @@ IMPORTANT
 dans la racine du backend un fichier .env doit être créer, à l'interieur les informations suivante doivent être renseigner.
 un fichier .env-example et fourni à la racine du backend.
 
-/////////
+-------------------------------
 token= cléf de securité de votre choix
 crypto= cléf de securité de votre choix / doit être la même que dans le fichier .env / VUE_APP_CRYPTO du frontend
 DB=groupomania
@@ -51,7 +54,7 @@ USER=login de votre base de donnée
 PASSWORD=password de votre base de donnée (laisser vide si aucun password)
 HOST=localhost
 DIALECT=mysql
-/////////
+-------------------------------
 
 Avec VS Code,
 
@@ -65,15 +68,16 @@ un message de confirmation devrai apparaitre : Connexion à la base de donées r
 
 
 
+
 IMPORTANT 
  --- Création du fichier .env  ---
 
 dans la racine du frontend un fichier .env doit être créer, à l'interieur, les informations suivantes doivent être renseigner.
 un fichier .env-example et fourni à la racine du frontend
 
-/////////
+-------------------------------
 VUE_APP_CRYPTO= la cléf doit être exactement la même que dans le fichier .env / crypto du backend
-/////////
+-------------------------------
 
 Pour le frontend
 
