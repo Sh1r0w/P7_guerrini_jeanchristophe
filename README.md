@@ -7,7 +7,6 @@ Projet 7 Groupomania
 - Node.JS
 - VUE 3 avec VUEX
 - Git
-et obligatoire
 
 ainsi qu'un environnement de développement (VS Code de préférence)
 
